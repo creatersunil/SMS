@@ -1,0 +1,84 @@
+<div class="widgets">
+
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup] = "myForm"  (ngSubmit)="onsubmit()" >
+      <ba-card title="Application View Information" baCardClass="with-scroll">
+      <div class="row">
+          <div class="col-md-4">
+                 <div class="form-group">
+                        <label class="control-label">View List</label>
+                          <select placeholder="Select view list" class="form-control"  *ngIf="viewlist.length >0" (change)="onselect($event.target.value)"    >
+                              <option value="0">Please select View List</option>
+                             <option  *ngFor="let vlist of viewlist" [value]="vlist.viewId" class="form-control" >
+                                          {{vlist.viewName}}
+                             </option>
+                        </select>
+                 </div>
+         </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label >Can Edit</label>
+          <!--<ba-checkbox  [(ngModel)]="checkboxModel" ></ba-checkbox>-->
+          <input type="checkbox" formControlName="canEdit">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label >Can Delete</label>
+          <input type="checkbox" formControlName="canDelete">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label >Can Query</label>
+          <input type="checkbox" formControlName="canQuery">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label >Can Update</label>
+          <input type="checkbox" formControlName="canUpdate">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label >Can View</label>
+          <input type="checkbox" formControlName="canView">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label >Can Search</label>
+          <input type="checkbox" formControlName="canSearch">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label >Can View Only Mine</label>
+          <input type="checkbox" formControlName="canViewOnlyMine">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <button type="submit" class="btn btn-primary" >Submit</button> 
+    </div>
+</ba-card>
+      </form>
+    </div>
+  </div>
+</div>

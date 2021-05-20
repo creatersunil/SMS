@@ -1,0 +1,14 @@
+<div class="row">
+    <div>
+        {{subject_name}}
+        <button *ngIf="(teacher_name!='')&&(subject_name !='')" class="btn btn-xs btn-default btn-icon pull right btn-custom"
+        (click)="removeTimeTable()"> <i class="ion-edit"></i></button>
+
+    </div>
+</div>
+
+<div class="row">
+    
+        <span class="techer-name"> {{teacher_name}}</span>
+   
+</div>

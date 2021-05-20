@@ -1,0 +1,1 @@
+export * from './mst_exams_terms.component';

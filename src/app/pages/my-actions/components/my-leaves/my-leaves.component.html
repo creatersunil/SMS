@@ -1,0 +1,132 @@
+<!--Leaves viewing Module start  -->
+    <div *ngIf="!createNewLeave">
+        <div class="row remove-margin">
+            <div class="col-md-12 remove-padding">
+                <button class="btn sub-button" (click)="onClickEnableNewLeave()">NEW Leave</button>
+            </div>
+        </div>
+        <table class="table" [mfData]="leavesDetails" #mf="mfDataTable" [mfRowsOnPage]="10">
+            <thead>
+                <tr>
+                    <th style="width: 25%">
+                        <mfDefaultSorter by="name">Leave Type</mfDefaultSorter>
+                    </th>
+                    <th style="width: 25%">
+                        <mfDefaultSorter by="admissionNo">Start Date</mfDefaultSorter>
+                    </th>
+                    <th style="width: 25%">
+                        <mfDefaultSorter by="age">End Date</mfDefaultSorter>
+                    </th>
+                    <th style="width: 25%">
+                        <mfDefaultSorter by="city">Days</mfDefaultSorter>
+                    </th>
+                    <th style="width: 25%">
+                        <mfDefaultSorter by="city">Status</mfDefaultSorter>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of mf.data" style="cursor: pointer">
+                    <td>{{item.txtLeaveType}}</td>
+                    <td>{{item.dtFromDate}}</td>
+                    <td>{{item.dtToDate}}</td>
+                    <td>{{item.days_requested}}</td>
+                    <td><label *ngIf="item.intStatus == 0 ">Pending</label>
+                        <label *ngIf="item.intStatus == 1 ">Approved</label>
+                        <label *ngIf="item.intStatus == 2 ">Rejected</label></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!--New Leave Apply Start  -->
+    <div *ngIf="createNewLeave">
+        <form [formGroup]="myForm">
+            <div class="row remove-margin">
+                <div class="col-md-12 remove-padding">
+                    <a class="txt-meneudata"> <img src="../../../../assets/new-images/left.png" alt="Previous icon" class="img-responsive prev" style="cursor: pointer" (click)="onClickBackToList()">
+                        <h6 style="height: 45px; padding:  11px 47px ">New Leave </h6>
+                    </a>
+                    <button class="btn sub-button" type="submit" (click)="onClickNewLeaveSubmit()" [disabled]="!myForm.valid">SUBMIT</button>
+                    <button class="btn sub-button" type="button" (click)="onClickRegistrationCancel()">CANCEL</button>
+                </div>
+            </div>
+            <ba-card>
+                <div class="row heading-content">
+                    <h6>Status : <label>New Leave</label></h6>
+                </div>
+                <br><br>
+                <div class="row">
+                    <div class="col-sm-4 form-group">
+                        <label for="name">Leave Type</label>
+                        <select placeholder="Leaves Type" name="leavetype" required class="form-control" formControlName="intLeaveId" (change)="onSelectRemainingDays($event.target.value)">
+                            <option  *ngFor="let leaves of leaveListData" value="{{leaves.intLeaveId}}"   >
+                                      {{leaves.txtLeaveType}}
+                            </option>
+          </select>
+                    </div>
+                    <div class="col-sm-2 form-group">
+                        <div class="button-wrapper">
+                            <label for="dtFromDate"> Total Leaves : </label>
+                            <button class="btn sub-button" type="button" disabled="disabled">{{_number_of_leave}}</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 form-group">
+                        <label for="dtFromDate"> Taken Leaves : </label>
+                        <div *ngIf="takenLeaves < _number_of_leave" class="button-wrapper">
+                            <button class="btn sub1-button" type="button" disabled="disabled">{{takenLeaves}}</button>
+                        </div>
+                        <div *ngIf="takenLeaves == _number_of_leave" class="button-wrapper">
+                            <button class="btn sub2-button" type="button" disabled="disabled">{{takenLeaves}}</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 form-group">
+                        <label for="dtFromDate"> Remaining Leaves : </label>
+                        <div *ngIf="remainingLeaves==0" class="button-wrapper">
+                            <button class="btn sub2-button" type="button" disabled="disabled">{{remainingLeaves}}</button>
+                        </div>
+
+                        <div *ngIf="remainingLeaves>0" class="button-wrapper">
+                            <button class="btn sub1-button" type="button" disabled="disabled">{{remainingLeaves}}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-4">
+                        <label for="number">Start Date</label>
+                        <input type="date" class="form-control" formControlName="dtFromDate" required #formDate (keyup.enter)="formdate(formDate.value)" (blur)="formdate(formDate.value)">
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="number">End Date</label>
+                        <input type="date" class="form-control" formControlName="dtToDate" required #toDate (keyup.enter)="todate(toDate.value)" (blur)="todate(toDate.value)">
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="days_requested">Days:</label>
+                        <input type="text" readonly="true" formControlName="days_requested" required value="{{totalDays}}" class="form-control">
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label for="txtReason">Comments:</label>
+                        <textarea class="form-control" formControlName="txtReason" required maxlength="250"></textarea>
+                    </div>
+                </div>
+
+            </ba-card>
+
+        </form>
+    </div>
+    <!--New leave apply End  -->
+<!--Leaves viewing Module End  -->
+
+
+<app-snotify></app-snotify>

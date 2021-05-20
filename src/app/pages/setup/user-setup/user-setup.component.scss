@@ -1,0 +1,100 @@
+@import '../components/class-subject-teacher/class-subject-teacher.component.scss';
+
+.table {
+  width: 100%;
+	-webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  & > thead {
+    & > tr {
+      & > th {
+        &:first-child {
+         // font-weight: 700;
+          font-size: 14px;
+          text-align: left;
+          color: #323232;
+          padding-left: 40px;
+        }
+      padding: 0.75rem;
+     	height: 50px;
+	    font-weight: 600;
+	    background-color: #ffffff;
+    	border-bottom: 1px solid #f0f3f4;
+	    font-size: 14px;
+       font-weight: bold;
+      text-align: left;
+      color: #323232;
+      }
+    }
+}
+  & > tbody {
+    & > tr {
+      // & > tr:first-child {
+      //   padding-top: 1px;
+      // }
+      & > td {
+        &:first-child {
+         // font-weight: 700;
+          font-size: 12px;
+          text-align: left;
+          color: #4990e2;
+          padding: 17px 0px 0px 40px;
+        } 
+          padding: 16px 14px;
+        	height: 55px;
+	        background-color: #ffffff;
+	        border-bottom: 1px solid #f0f3f4;
+	        text-align: left;
+          font-size: 12px;
+          text-align: left;
+          color: #727272;
+      }
+    }
+  }
+   & > tfoot {
+    & > tr {
+      // & > tr:first-child {
+      //   padding-top: 1px;
+      // }
+      & > td {
+          padding: 15px 8px;
+        	height: 50px;
+	        background-color: #ffffff;
+	        border-bottom: 1px solid #f0f3f4;
+	        text-align: left;
+          font-size: 20px;
+          color: #323232;
+          font-weight: 600;
+      }
+    }
+  }
+};
+
+input{
+  height: 28px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  border: solid 1px #ededed;
+   color: #323232;
+   opacity: 3.5;
+}
+textarea{
+   border-radius: 2px;
+   background-color: #ffffff;
+  border: solid 1px #ededed;
+   color: #323232;
+   opacity: 3.5;
+}
+
+select{
+     height:calc(2.15rem + 0px);;
+  border-radius: 2px;
+  background-color: #ffffff;
+  border: solid 1px #ededed;
+   color: #323232;
+   opacity: 3.5;
+}
+select.form-control:not([size]):not([multiple]) {
+    height: calc(2.15rem + 0px);
+    font-size: 0.8rem
+}

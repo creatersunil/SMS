@@ -1,0 +1,275 @@
+<div class="widgets">
+    <div class="row">
+        <div class="col-md-12">
+            <form [formGroup]="myForm" > <!--(ngSubmit)="onSubmit(staticModal)"-->
+               <ba-card title="General Information" baCardClass="with-scroll">
+           <div class="row">
+                <div class="form-group" class="col-md-4"  >
+                   <label for="firstName">First Name<small style="color: red">*</small></label>
+                  
+                   <input type="text" class="form-control" required id="firstName" #firstName placeholder="Enter your first name" formControlName="txtFirstName">
+                     
+                </div>
+               <div class="form-group" class="col-md-4">
+                   <label for="middleName">Middle Name</label>
+                   <input type="text" class="form-control" id="middleName" placeholder="Enter your middle name" formControlName="txtMiddleName">
+                  
+               </div>
+               <div class="form-group" class="col-md-4" >
+                   <label for="lastName">Last Name<small style="color: red">*</small></label>
+                   <input type="text" class="form-control" required id="lastName" placeholder="Enter your last name" formControlName="txtLastName" >
+               </div>
+           </div>
+           <br>
+
+           <div class="row">
+                <div class="col-md-4">
+                     <div class="form-group" >
+                         <label class="control-label">Email Id<small style="color: red">*</small></label>
+                         <input type="email" placeholder="Enter Email" class="form-control" required formControlName="txtEmailId" #email > <!--(blur)="checkEmail(email)"-->
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                         <label class="control-label">Date Of Birth<small style="color: red">*</small></label>
+                         <input type="date" class="form-control" dateFormat="dd/mm/yy" required formControlName="dtDOB" >
+                    </div>
+                </div>
+                 <div class="col-md-4">
+                     <div class="form-group">
+                         <label class="control-label">Father Name<small style="color: red">*</small></label>
+                         <input type="text" placeholder="Enter Father Name" class="form-control" required formControlName="txtFatherName">
+                    </div>
+                </div>
+            </div>
+           
+
+          <div class="row">
+              <div class="col-md-4">
+                            <label for="gender">Gender<small style="color: red">*</small> </label>
+                            <div class="form-group" *ngFor="let g of genders">
+                                <input type="radio" required formControlName="intGenderId" [value]="g.value"> {{g.viewValue}}
+                            </div>
+             </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                        <label for="religion">Religion<small style="color: red">*</small></label><br>
+                        <select placeholder="religions"  *ngIf="religions.length >0" name="religions" class="form-control" required formControlName="intReligionId" >
+                            <option  *ngFor="let religion of religions" value="{{religion.intReligionId}}"  class="form-control" required >
+                                      {{religion.txtReligionName}}
+                            </option>
+                        </select>
+                 </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group ">
+                       <label class="control-label">Blood Group</label>
+                       <input type="text" class="form-control" formControlName="bloodGroup">
+                </div>
+               </div>
+          </div>
+          <div class="row">
+              <div class="col-md-4">
+                <div class="form-group ">
+                        <label class="control-label">Aadhar No</label>
+                        <input type="text" class="form-control" OnlyNumber="true"   minlength="12" maxlength="12" formControlName="txtAadharNumber" >
+                </div>
+               </div>
+               <div class="col-md-4">
+                 <div class="form-group">
+                        <label class="control-label">Mother Tongue<small style="color: red">*</small></label>
+                         <select placeholder="motherTongue"   name="motherTongue" required class="form-control" formControlName="intmothertongueId" >
+                            <option  *ngFor="let motherTongue of m_tongue" value="{{motherTongue.intmothertongueId}}"  class="form-control" >
+                                      {{motherTongue.txtmothertongue}}
+                            </option>
+                        </select>
+                 </div>
+               </div>
+               <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Locality<small style="color: red">*</small></label>
+                        <input type="text" class="form-control" required formControlName="txtLocality">
+                    </div>
+                </div>
+            
+           </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Taluk<small style="color: red">*</small></label>
+                        <select placeholder="taluk"  *ngIf="taluk.length >0" name="taluk" class="form-control" formControlName="txtTaluk" (change)="onSelectTaluk($event.target.value)">
+                            <option  *ngFor="let tal of taluk" value="{{tal.intTalukId}}"  class="form-control" required >
+                                      {{tal.txtTalukName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group ">
+                        <label class="control-label">District<small style="color: red">*</small></label>
+                        <select placeholder="district"  *ngIf="district.length >0" name="cities" class="form-control" formControlName="txtDistrict"  >
+                            <option  *ngFor="let dist of district" value="{{dist.intDistrictId}}"  class="form-control" required >
+                                      {{dist.txtDistrictName}}
+                            </option>
+                        </select>
+                    </div>
+               </div>
+               <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">State<small style="color: red">*</small></label>
+                        <select placeholder="taluk"  *ngIf="states.length >0" name="taluk" class="form-control" formControlName="intStateId">
+                            <option  *ngFor="let state of states" value="{{state.intStateId}}"  class="form-control" required >
+                                      {{state.txtStateName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                 
+                 <div class="col-md-4">
+                 <div class="form-group">
+                        <label class="control-label">Nationality<small style="color: red">*</small></label>
+                         <select  *ngIf="countries.length >0" name="country" class="form-control" formControlName="txtNationality"  >
+                            <option  *ngFor="let country of countries" value="{{country.intCountryId}}"  class="form-control" required >
+                                      {{country.txtCountryName}}
+                            </option>
+                        </select>
+                 </div>
+               </div>
+               <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">City<small style="color: red">*</small></label>
+                        <select placeholder="Cities"  *ngIf="cities.length >0" name="cities" class="form-control" formControlName="intCityId" >
+                            <option  *ngFor="let city of cities" value="{{city.intCityId}}"  class="form-control" required >
+                                      {{city.txtCityName}}
+                            </option>
+                        </select>
+                    </div>
+                 </div>
+                 <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Pin Code<small style="color: red">*</small></label>
+                        <input type="text" class="form-control" OnlyNumber="true" minlength="6" maxlength="6" required formControlName="txtPincode">
+                    </div>
+                 </div>
+                </div>
+                    <div class="row">
+                       <div class="col-md-6">
+                          <div class="form-group ">
+                             <label for="permanentAdderess">Permanent Address<small style="color: red">*</small> </label>
+                             <textarea placeholder="Enter Permanent address" class="form-control" id="permanentAdderess" formControlName="txtPerAddress"></textarea>
+                          </div>
+                       </div>
+                       <div class="col-md-6">
+                         <div class="form-group">
+                            <label for="currentAdderess">Current Address</label>
+                            <textarea placeholder="Enter current address" class="form-control" id="currentAdderess" formControlName="txtTempAddress"></textarea>
+                         </div>
+                       </div>
+                     </div>
+                   
+            </ba-card>
+            <ba-card title="Official Information" baCardClass="with-scroll">
+                <div class="row">
+                         <div class="form-group" class="col-md-4"   >
+                                <label for="mobileNumber">Mobile Number<small style="color: red">*</small></label>
+                                <input  type="text" class="form-control" maxlength="10" minlength="10" OnlyNumber="true" name="mobileNumber" placeholder="Enter your mobileNumber" id="mobilenumber" formControlName="txtMobileNumber"   >
+                        </div>
+                        <div class="form-group" class="col-md-4">
+                              <label for="alternativeNumber">Alternative Mobile Number</label>
+                              <input OnlyNumber="true" type="text" OnlyNumber="true"  class="form-control" id="alternativemobilenumber" formControlName="txtAlternateMobileNumber" maxlength="10" minlength="10">
+                        </div>
+                        <div class="form-group" class="col-md-4" >
+                              <label for="relativesNumber">Relative Number</label>
+                              <input OnlyNumber="number" text="text" OnlyNumber="true"  class="form-control" id="relativenumber" formControlName="txtRelativeNumber" maxlength="10" minlength="10">
+                        </div>
+                </div>
+              
+               <div class="row">
+                      <div class="form-group" class="col-md-4" x>
+                         <label for="qualification">Qualification<small style="color: red">*</small></label>
+                         <input type="text" name="qualification" class="form-control" required formControlName="qualification">
+                      </div>
+                      <div class="form-group" class="col-md-4" >
+                             <label for="designation">Designation<small style="color: red">*</small></label>
+                             <input type="text" name="designation" class="form-control" required formControlName="designation">
+                      </div>
+                       <div  class="col-md-4" >
+                             <div class="form-group">
+                                     <label for="skill">Skill</label>
+                                     <select  *ngIf="skills.length >0"  class="form-control" formControlName="skillId" >
+                                             <option  *ngFor="let skill of skills" [value]="skill.skillId"  class="form-control"  >
+                                                  {{skill.skill_name}}
+                                             </option>
+                                     </select>
+                             </div>
+                      </div>
+                </div>
+                <div class="row">
+                        <div  class="col-md-4">
+                             <div class="form-group">
+                                       <label for="maritalStatus">Marital Status<small style="color: red">*</small></label>
+                                        <select placeholder="maritalStatus" required *ngIf="m_status.length >0"  class="form-control" formControlName="intMaritalStatusId">
+                                            <option  *ngFor="let maritalStatus of m_status" [value]="maritalStatus.intMaritalStatusId"  class="form-control"  >
+                                                {{maritalStatus.txtMaritalStatus}}
+                                           </option>
+                                        </select>
+                             </div>
+                        </div>
+                     <div class="col-md-4">
+                         <div class="form-group ">
+                             <label class="control-label">User Group<small style="color: red">*</small></label>
+                              <select placeholder="groupname"  *ngIf="groupname.length >0" required name="groupname" class="form-control" formControlName="group_name" (change)="groupNameValidation($event.target.value)"  >
+                                   <option  *ngFor="let group of groupname" value="{{group.group_name}}"  class="form-control" required >
+                                      {{group.group_name}}
+                                   </option>
+                              </select>
+                              <div *ngIf="userGroup">
+                                  <small style="color: red">Staff Cannot Select Student</small>
+                              </div>
+                        </div>
+                    </div>
+                     
+               </div>
+              <div class="row">
+                        <div  class="col-md-6" >
+                              <div class="form-group">
+                               <label for="previousSchoolName">Previous School Name</label>
+                              <textarea placeholder="Enter previous School Name" class="form-control" id="previousSchoolName" formControlName="txtPreviousSchoolName"></textarea>
+                              </div> 
+                        </div>
+                       <div class="form-group" class="col-md-6">
+                               <div class="form-group">
+                                 <label for="previousSchoolAddress">Previous School Address</label>
+                                 <textarea placeholder="Enter previous School Address" class="form-control" id="previousSchoolAddress" formControlName="txtPreviousSchoolAddress"></textarea>
+                              </div> 
+                       </div>
+              </div>
+                     <div class="row">
+                          <button type="submit"  class="btn btn-primary pull-right" >Submit</button>
+                     </div>
+        </ba-card>           
+         </form>
+        </div>
+    </div>
+</div>
+
+
+<!--
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Staff Profile SuccessFully Upadated...........</h4>
+      </div>
+      <div class="modal-body">
+        <!--Do you to want print a updated information....
+      </div>
+      <div class="modal-footer">
+       <button class="btn btn-primary confirm-btn" (click)="staticModal.hide();ProfilePage()">Ok</button>
+                <!--<button class="btn btn-primary confirm-btn" (click)="print();ProfilePage()">Print</button?
+      </div>
+    </div>
+  </div>
+</div>-->

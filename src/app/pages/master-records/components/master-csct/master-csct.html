@@ -1,0 +1,49 @@
+<div class="widgets">
+
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup] = "myForm"  (ngSubmit)="onsubmit()" >
+      <ba-card title="Application View Information" baCardClass="with-scroll">
+      <div class="row">
+          <div class="col-md-4">
+                 <div class="form-group">
+                        <label class="control-label">Staff Name</label>
+                          <select class="form-control"  *ngIf="staffDetails.length >0"  formControlName="intRegistrationId"   >
+                              <!--<option value="0">Select Staff Name</option>-->
+                             <option  *ngFor="let staff of staffDetails" [value]="staff.intRegistrationId" class="form-control"  >
+                                          {{staff.txtFirstName}} {{staff.txtLastName}}
+                             </option>
+                        </select>
+                 </div>
+         </div>
+         <div class="col-md-4">
+                 <div class="form-group">
+                        <label class="control-label">Assign Class</label>
+                          <select class="form-control"  *ngIf="className.length >0"   formControlName="class_id"  >
+                              <!--<option value="0">Select Class</option>-->
+                             <option  *ngFor="let class of className" [value]="class.class_id" class="form-control" >
+                                          {{class.class_name}}
+                             </option>
+                        </select>
+                 </div>
+         </div>
+          <div class="col-md-4">
+                 <div class="form-group">
+                        <label class="control-label">Section</label>
+                          <select class="form-control"  *ngIf="sectionList.length >0"   formControlName="section_id"  >
+                              <!--<option value="0">Select Section</option>-->
+                             <option  *ngFor="let section of sectionList" [value]="section.section_id" class="form-control" >
+                                          {{section.section_name}}
+                             </option>
+                        </select>
+                 </div>
+         </div>
+    </div> 
+    <div class="row">
+        <button type="submit"  class="btn btn-primary pull-right ">Submit</button>
+    </div>
+</ba-card>
+      </form>
+    </div>
+  </div>
+</div>

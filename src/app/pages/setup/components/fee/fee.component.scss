@@ -1,0 +1,66 @@
+/* body select.select_box */ 
+@import '../../../../theme/sass/auth';
+
+.select-box {
+    padding: 10px 70px 10px 13px !important; 
+    max-width: 100%; 
+    height: auto !important; 
+    border: 1px solid #e3e3e3; 
+    border-radius: 3px; 
+    background: url("https://image.ibb.co/iMeAJv/selectbox_arrow.png") right center no-repeat; 
+    background-color: #fff; 
+    color: #444444; 
+    // font-size: 12px; 
+    line-height: 16px !important; 
+    appearance: none; 
+    /* this is must */ 
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+} 
+
+/* body select.select_box option */ 
+.select-options { 
+    padding: 0 4px;
+}
+
+table {
+	width: 100%;
+	-webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.table-heading {
+	height: 50px;
+	font-weight: 600;
+	background-color: #ffffff;
+    text-align: left !important;
+	vertical-align: middle;
+    padding-left: 5%;
+    border: none;
+    background-color: #f0f3f4;
+}
+
+.table-rowData {
+	height: 50px;
+	background-color: #ffffff;
+	text-align: left !important;
+	vertical-align: middle;
+    padding-left: 5%;
+    border: none;
+}
+
+.table-textBox {
+	line-height: 18px;
+	// width: 70px;
+}
+select#my_dropdown {
+    width:85%;
+	height: 24px
+}
+
+select:focus#my_dropdown {
+    width:auto\9;
+}
+
+

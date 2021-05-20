@@ -1,0 +1,248 @@
+<div class="row navContainer col-sm-12">
+  <ul id="navlist">
+    <li class="tab" [class.selected]="select==1" (click)="onClickSelectTab(1)"><a>User Group</a></li>
+    <li class="tab" [class.selected]="select==2" (click)="onClickSelectTab(2)"><a>Modules</a></li>
+    <li class="tab" [class.selected]="select==3" (click)="onClickSelectTab(3)"><a>Mapping</a></li>
+  </ul>
+</div>
+<div *ngIf="select==1">
+  <div class="row">
+    <div class="col-md-12" *ngIf="!enableCreateNewGroup">
+      <button class="btn sub-button" (click)="onClickNewGroup()">NEW GROUP</button>
+      <button class="btn sub-button" (click)="onClickDectivate()">DEACTIVATE</button>
+    </div>
+    <div class="col-md-12" *ngIf="enableCreateNewGroup">
+      <button class="btn sub-button" (click)="onClickSaveNewGroup()">SAVE</button>
+      <button class="btn sub-button" (click)="onClickCancelNewGroup()">CANCEL</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!enableCreateNewGroup">
+    <table class="table col-sm-12" [mfData]="grouplist" #mf="mfDataTable" [mfRowsOnPage]="10" (mfSelectedEntities)="setSelectedEntities($event)">
+      <thead>
+        <tr>
+          <th style="width: 15%">
+            <mfDefaultSorter by="name">Sl No</mfDefaultSorter>
+          </th>
+          <th style="width: 25%">
+            <mfDefaultSorter by="roll">Group Name</mfDefaultSorter>
+          </th>
+          <th style="width: 25%">
+            <mfDefaultSorter by="today">Status</mfDefaultSorter>
+          </th>
+          <th style="width: 35%">
+            <mfDefaultSorter by="leave">Description</mfDefaultSorter>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of mf.data; let idx=index; let even=even" style="cursor:pointer" (click)="onClickComponent(item)">
+          <td>{{item.id}} </td>
+          <td>{{item.group_name}}</td>
+          <td *ngIf="item.status == 1">Active</td>
+          <td *ngIf="item.status == 0">Inactive</td>
+          <td>{{item.description}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="6">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div *ngIf="enableCreateNewGroup" style="background-color: #ffffff ;height: 404px">
+    <div class="row">
+      <!--<div class="col-sm-1">padding: 0px 0px 0px 30px
+      </div>-->
+      <div class="col-sm-4"><br><br><br>
+        <div class="form-group" style="margin-left: 20px">
+          <label>Group Name</label>
+          <input type="text" class="form-control" [(ngModel)]="group_name">
+        </div>
+      </div>
+      <div class="col-sm-4"><br><br><br>
+        <div class="form-group" style="margin-left: 20px">
+          <label>Default View Name</label>
+          <select *ngIf="viewList.length >0" class="form-control" (change)="onSelectViewName($event.target.value)">
+            <option value="-1">Default View</option>
+            <option *ngFor="let view of viewList" value="{{view.viewName}}">
+              {{view.viewName}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group" style="margin-left: 20px">
+          <label>Group Description</label>
+          <textarea class="form-control" style="height: 50px" [(ngModel)]="group_description"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Module Template-->
+<div *ngIf="select==2">
+  <div class="row">
+    <div class="col-md-12" *ngIf="!enableCreateNewModule">
+      <button class="btn sub-button" (click)="onClickNewModule()">NEW MODULE</button>
+      <!--<button class="btn sub-button" (click)="onClickDectivate()"><label class="btn-school-text">DEACTIVATE</label></button>-->
+    </div>
+    <div class="col-md-12" *ngIf="enableCreateNewModule">
+      <button class="btn sub-button" (click)="onClickSaveNewModule()">SAVE</button>
+      <button class="btn sub-button" (click)="onClickCancelNewModule()">CANCEL</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!enableCreateNewModule">
+    <table class="table col-sm-12" [mfData]="grouplist" #mf="mfDataTable" [mfRowsOnPage]="10" (mfSelectedEntities)="setSelectedEntities($event)">
+      <thead>
+        <tr>
+          <th style="width: 15%">
+            <mfDefaultSorter by="name">Sl No</mfDefaultSorter>
+          </th>
+          <th style="width: 25%">
+            <mfDefaultSorter by="name">Module Name</mfDefaultSorter>
+          </th>
+          <th style="width: 10%">
+            <mfDefaultSorter by="view">View</mfDefaultSorter>
+          </th>
+          <th style="width: 10%">
+            <mfDefaultSorter by="view">Edit</mfDefaultSorter>
+          </th>
+          <th style="width: 10%">
+            <mfDefaultSorter by="view">Approve</mfDefaultSorter>
+          </th>
+          <th style="width: 30%">
+            <mfDefaultSorter by="leave">Description</mfDefaultSorter>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of mf.data; let idx=index" style="cursor:pointer;">
+          <td>{{item.id}} </td>
+          <td>{{item.group_name}}</td>
+          <td>
+            <label class="allotedSubjects" *ngIf="item.status == 1">✔</label>
+            <label class="allotedSubjects" *ngIf="item.status == 0"></label>
+          </td>
+          <td>
+            <label class="allotedSubjects" *ngIf="item.status == 1">✔</label>
+            <label class="allotedSubjects" *ngIf="item.status == 0"></label>
+          </td>
+          <td>
+            <label class="allotedSubjects" *ngIf="item.status == 1">✔</label>
+            <label class="allotedSubjects" *ngIf="item.status == 0"></label>
+          </td>
+          <td>{{item.description}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="6">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!--Create  New Module Template-->
+  <div *ngIf="enableCreateNewModule" style="background-color: #ffffff ;height: 404px">
+    <div class="row">
+      <!--<div class="col-sm-1">padding: 0px 0px 0px 30px
+      </div>-->
+      <div class="col-sm-4"><br><br><br>
+        <div class="form-group" style="margin-left: 20px">
+          <label>Group Name</label>
+          <input type="text" class="form-control">
+        </div>
+      </div>
+      <div class="col-sm-2"><br><br><br>
+        <div class="form-group">
+          <label>New Module</label><br>
+          <input type="checkbox" /><label style="margin: 2px 0px 0px 18px;">View</label>
+        </div>
+      </div>
+      <div class="col-sm-2"><br><br><br>
+        <div class="form-group">
+          <label></label><br>
+          <input type="checkbox" /><label style="margin: 2px 0px 0px 18px;">Edit</label>
+        </div>
+      </div>
+      <div class="col-sm-2"><br><br><br>
+        <div class="form-group">
+          <label></label><br>
+          <input type="checkbox" /><label style="margin: 2px 0px 0px 18px;">Apprve</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group" style="margin-left: 20px">
+          <label>Group Name</label>
+          <textarea class="form-control" style="height: 50px"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Mapping Template-->
+<div *ngIf="select ==3">
+  <div class="row">
+    <div class="col-md-12" *ngIf="!enableMappig">
+      <button class="btn sub-button" (click)="onClickEditNewMapping()">NEW MODULE</button>
+      <!--<button class="btn sub-button" (click)="onClickDectivate()"><label class="btn-school-text">DEACTIVATE</label></button>-->
+    </div>
+    <div class="col-md-12" *ngIf="enableMappig">
+      <button class="btn sub-button" (click)="onClickSaveMapping()">SAVE</button>
+      <button class="btn sub-button" (click)="onClickCancelMapping()">CANCEL</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="enableMappig">
+    <table class="table col-sm-12" [mfData]="applicationViews" #mf="mfDataTable" [mfRowsOnPage]="10" (mfSelectedEntities)="setSelectedEntities($event)">
+      <thead>
+        <tr>
+          <th style="width: 10%">
+            <mfDefaultSorter></mfDefaultSorter>
+          </th>
+          <th style="width: 10%">
+            <mfDefaultSorter></mfDefaultSorter>
+          </th>
+          <th style="width: 15%" *ngFor="let item of grouplist">
+            <mfDefaultSorter>{{item.group_name }}</mfDefaultSorter>
+          </th>
+          <!--<th style="width: 10%">
+            <mfDefaultSorter by="view">Edit</mfDefaultSorter>
+          </th>
+          <th style="width: 10%">
+            <mfDefaultSorter by="view">Approve</mfDefaultSorter>
+          </th>
+          <th style="width: 30%">
+            <mfDefaultSorter by="leave">Description</mfDefaultSorter>
+          </th>-->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of mf.data; let idx=index; let even=even" style="cursor:pointer;">
+          <td>{{item.view_name}}</td>
+          <td value="1" #actionUser>Edit </td>
+          <td *ngFor="let groupdata of grouplist"><input type="checkbox" (change)="onChangeView($event,item,groupdata,actionUser)"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="7">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

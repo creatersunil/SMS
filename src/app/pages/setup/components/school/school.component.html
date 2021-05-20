@@ -1,0 +1,126 @@
+
+  <div class="row">
+    <div class="col-md-12" *ngIf="!editMode">
+      <button class="btn sub-button" (click)="onClickEditBtn()" style="float:right; margin-bottom:20px;">EDIT</button>
+    </div>
+    <div class="col-md-12" *ngIf="editMode">
+      <button class="btn sub-button" (click)="onClickSaveBtn()" style="float:right; margin-bottom:20px;">SAVE</button>
+      <button class="btn sub-button" (click)="onClickCancelBtn()" *ngIf="editMode" style="float:right; margin-bottom:20px;">CANCEL</button>
+    </div>
+  </div>
+
+ <form [formGroup]="myForm">
+  <div class="row">
+    <div class="col-md-12" *ngFor="let school of schoolData">
+      <ba-card>
+        <div class="row" id="schoolDetails">
+          <div class="col-sm-3 col-md-3 col-lg-2" style="margin-bottom:7px;" *ngIf="!editMode">
+            <!--<a>
+              <img src="https://www.w3schools.com/css/img_fjords.jpg" alt="{{schoolName}}" class="schoolLogo">
+              
+            </a>-->
+            <div class="picture-group" [ngClass]="{uploading: uploadInProgress}">
+              <div class="picture-wrapper">
+                <img [src]="picture" *ngIf="picture">
+                <img [src]="defaultPicture" *ngIf="!!!picture && !!defaultPicture">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3 col-md-2" style="margin-bottom:7px;" *ngIf="editMode">
+            <!--          
+            <a>
+              <img src="https://www.w3schools.com/css/img_fjords.jpg" alt="{{schoolName}}" class="schoolLogo">
+            </a>-->
+            <div class="picture-group" [ngClass]="{uploading: uploadInProgress}">
+              <div class="picture-wrapper" (click)="bringFileSelector();">
+                <img [src]="picture" *ngIf="picture">
+                <img [src]="defaultPicture" *ngIf="!!!picture && !!defaultPicture">
+
+                <div class="loading" *ngIf="uploadInProgress">
+                  <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                  </div>
+                </div>
+              </div>
+              <i class="ion-ios-close-outline" (click)="removePicture();" *ngIf="picture && canDelete"></i>
+              <a href class="change-picture" (click)="bringFileSelector();">Change Logo</a>
+              <input #fileUpload ngFileSelect [options]="uploaderOptions" (onUpload)="_onUpload($event)" (beforeUpload)="beforeUpload($event)"
+                type="file" [hidden]="true" >
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-7" style="display:inline-block;" *ngIf="!editMode">
+            <label id="schooName" style="font-size:30px; margin:10px 0px 20px 0px; display:block; line-height:1;">{{school.school_Name}}</label>
+            <p id="schoolStreet" style="font-size:17px; display:block; white-space:pre-line;line-height: 2;" class="col-md-6 nopad">{{school.school_Address}}</p>
+            <!--<label id="schoolLoation" style="font-size:17px; display:block;">Indera Nagar, Banalore 560001</label>-->
+          </div>
+          <div class="col-sm-5 col-md-6" style="display:inline-block;" *ngIf="editMode" style="margin-bottom:5px;">
+            <label id="schooNameLbl" style="display:block; margin: 0px;">School Name</label>
+            <input id="schoolNameInput" type="text" formControlName="school_Name" style="width:100%; height:30px; margin-bottom:10px;"
+             />
+            <label id="schoolStreet" style="display:block; margin: 0px;">Address</label>
+            <textarea id="schoolAddressInput"  formControlName="school_Address" style="width:100%; height:79px;" ></textarea>
+          </div>
+          <div class="col-md-6 col-lg-3" style="margin-top:10px;" *ngIf="!editMode">
+            <label id="schoolPhone" style="float:left; display:block;">Phone : +91 {{school.school_Phone}}</label>
+            <label id="schoolEmail" style="float:left; display:block;">Email : {{school.school_Email}}</label>
+            <label id="schoolFax" style="float:left; display:block;">Fax : {{school.school_fax}}</label>
+          </div>
+          <div class="col-sm-3 col-md-4" *ngIf="editMode" style="margin-bottom:5px;">
+            <label id="schooPhoneLbl" style="display:block; margin: 0px;">Phone</label>
+            <input id="schoolPhoneInput" type="text" style="width:100%; height:30px; margin-bottom:7px;" formControlName="school_Phone"
+            />
+            <label id="schoolEmailLbl" style="display:block; margin: 0px;">Email</label>
+            <input id="schoolEmailInput" type="text" style="width:100%; height:30px; margin-bottom:7px;" formControlName="school_Email"
+            />
+            <label id="schoolFax" style="display:block; margin: 0px;">Fax</label>
+            <input id="schoolFaxInput" type="text" style="width:100%; height:30px;" formControlName="school_fax"/>
+          </div>
+        </div>
+      </ba-card>
+    </div>
+  </div>
+ </form>
+  <div class="row">
+    <div class="col-md-12">
+      <ba-card title="Classes" baCardClass="with-scroll" >
+        <div class="col-md-12 col-lg-10  center-block col-centered">
+          <!--<div class="checkbox" style="display:inline-block;">-->
+            <div class="fixed-width" *ngFor="let class of classes">
+              <input type="checkbox"  class="check-box" value="{{class.class_enabled}}" [(ngModel)]="class.class_enabled" [disabled]="!editMode" (change)="onClassChange($event,class)"/>
+              <label
+                class="check-box-label">{{class.class_name}}</label>
+            </div>
+          <!--</div>-->
+        </div>
+      </ba-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <ba-card title="Subjects" baCardClass="with-scroll">
+        <div class="col-md-6 center-block col-centered" *ngIf="!editMode">
+          <div class="fixed-width" *ngFor="let subject of subjects">
+            <input type="checkbox" class="check-box" value="{{subject.subject_enabled}}" [(ngModel)]="subject.subject_enabled" [disabled]=true />
+              <label class="check-box-label">{{subject.subject_name}}</label>
+          </div>
+        </div>
+        <div class="row" *ngIf="editMode">
+          <div class="col-md-6" style="padding:20px 10%;">
+            <input id="newSubjectInput" type="text" placeholder="Add Subject" #extraSubject style="height:25px; width:100%; margin-bottom:7px;"
+            />
+            <div>
+              <button class="btn sub-button btn-school-text" style="float:right; margin-bottom:20px;" (click)="onAddSubject(extraSubject.value)">ADD</button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="fixed-width" *ngFor="let subject of subjects">
+               <input type="checkbox"  class="check-box" value="{{subject.subject_enabled}}" [(ngModel)]="subject.subject_enabled" (change)="onSubjectChanged($event,subject)" /><label class="check-box-label">{{subject.subject_name}}</label>
+            </div>
+          </div>
+        </div>
+      </ba-card>
+    </div>
+  </div>
+  

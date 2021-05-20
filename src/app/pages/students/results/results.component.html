@@ -1,0 +1,175 @@
+<div class="row navContainer">
+  <ul id="navlist">
+    <li class="tab" [class.selected]="select==1" (click)="onClickSelectTab(1)"><a>Overview</a></li>
+    <li class="tab" [class.selected]="select==2" (click)="onClickSelectTab(2)"><a>List</a></li>
+  </ul>
+</div><br><br>
+<div *ngIf="select == 1">
+  <div class="row upppetxtbar">
+    <div class="col-sm-1.5">
+      <select *ngIf="mstExamTermsNames.length >0" class="form-control no-border" (change)="onSelectExam($event.target.value)">
+              <option value="-1">Exam</option>
+              <option *ngFor="let exam of mstExamTermsNames" value="{{exam.txtTermName}}">
+                  {{exam.txtTermName}}
+              </option>
+          </select>
+    </div>
+    <div class="col-sm-1.5" *ngIf="enableCassSection">
+      <select *ngIf="classes.length >0" class="form-control no-border" (change)="onClickClass($event.target.value); onSelectSectionWRTClass($event.target.value)">
+              <option value="-1">class</option>
+              <option *ngFor="let class of classes" value="{{class.class_id}}" >
+                  {{class.class_name}}
+              </option>
+          </select>
+    </div>
+    <div class="col-sm-1.5" *ngIf="enableCassSection">
+      <select placeholder="Sections" *ngIf="sections.length >0" name="section" class="form-control no-border" (change)="onselectSection($event.target.value)">
+                     <option value="-1">section</option>
+                     <option  *ngFor="let section of sectionNames" value="{{section.section_id}}"  >
+                               {{section.section_name}}
+                     </option>
+          </select>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="txtclasssection" style="width: 100px">
+      <p class="heading-paragrp" style="padding: 0px 0px 0px 7px;">{{selectedExamName}}</p>
+    </div>
+    <div class="txtclasssection">
+      <p class="heading-paragrp" style="padding: 0px 0px 0px 7px;">{{selectedClass}}</p>
+    </div>
+    <div class="txtclasssection">
+      <p class="heading-paragrp" style="padding: 0px 0px 0px 7px;">{{selectedsection}}</p>
+    </div>
+  </div>
+
+  <!--<div>-->
+  <div class="row">
+    <div class="col-sm-6">
+      <ba-card title="Summary" baCardClass="with-scroll">
+        <canvas baseChart [datasets]="datasets" *ngIf="pieChartDisable" height="140px" [labels]="pieChartLabels" [colors]="colors"
+          [chartType]="pieChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+      </ba-card>
+    </div>
+    <div class="col-sm-6">
+      <ba-card title="100/100 Marks">
+        <canvas *ngIf="enableChart" baseChart [datasets]="barChartData" [colors]="myColors" [labels]="barChartLabels" [options]="barChartOptions"
+          [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+      </ba-card>
+    </div>
+  </div><br>
+  <div class="row widgets">
+    <div class="col-lg-6 col-md-12">
+      <ba-card title="Top 10 Students" baCardClass="with-scroll table-panel">
+        <div class="vertical-scroll">
+          <table class="table table-striped">
+            <tbody>
+              <tr *ngFor="let topper of arDataForTop10Studnets">
+                <td>{{topper.txtFirstName}} {{topper.txtLastName}}</td>
+                <td>{{topper.totalMarks}}/{{topper.totalMaxMarks}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </ba-card>
+    </div>
+    <div class="col-lg-6 col-md-12">
+      <ba-card baCardClass="with-scroll table-panel">
+        <h6>{{classSectionTeacherName}}</h6>
+        <p>Class Teacher</p>
+        <hr>
+        <div>
+          <h6 style="text-align: center">Total Students : {{noOfStudentsInClass}}</h6><br>
+          <h6 style="text-align: center">First Class with Distinction : {{firstClassWithDistinctionStudentsLength}}</h6>
+          <h6 style="text-align: center">First Class : {{firstClassStudentsLength}}</h6>
+          <h6 style="text-align: center">Second Class : {{secondClassStudentsLength}}</h6>
+          <h6 style="text-align: center">Just Pass : {{justPassStudentsLength}}</h6>
+          <h6 style="text-align: center">Fail : {{failedStudentsLength}}</h6>
+        </div>
+      </ba-card>
+    </div>
+  </div>
+  <!--</div>-->
+</div>
+
+<!--LIST TEMPLATE-->
+<div *ngIf="select == 2">
+  <div class="row upppetxtbar">
+    <div class="col-sm-1.5">
+      <select *ngIf="mstExamTermsNames.length >0" class="form-control no-border" (change)="onSelectExam($event.target.value)">
+              <option value="-1">Exam</option>
+              <option *ngFor="let exam of mstExamTermsNames" value="{{exam.txtTermName}}">
+                  {{exam.txtTermName}}
+              </option>
+          </select>
+    </div>
+    <div class="col-sm-1.5">
+      <select *ngIf="classes.length >0" class="form-control no-border" (change)="onClickClass($event.target.value); onSelectSectionWRTClass($event.target.value)">
+              <option value="-1">class</option>
+              <option *ngFor="let class of classes" value="{{class.class_id}}">
+                  {{class.class_name}}
+              </option>
+          </select>
+    </div>
+    <div class="col-sm-1.5">
+      <select placeholder="Sections" *ngIf="sections.length >0" name="section" class="form-control no-border" (change)="onselectSection($event.target.value)">
+                     <option value="-1">section</option>
+                     <option  *ngFor="let section of sectionNames" value="{{section.section_id}}"  >
+                               {{section.section_name}}
+                     </option>
+          </select>
+    </div>
+
+
+  </div><br>
+  <div class="row">
+    <div class="txtclasssection">
+      <p class="heading-paragrp" style="padding: 0px 0px 0px 7px;">{{selectedClass}}</p>
+    </div>
+    <div class="txtclasssection">
+      <p class="heading-paragrp" style="padding: 0px 0px 0px 7px;">{{selectedsection}}</p>
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <table class="table" [mfData]="studentClassSectionMarksData" #mf="mfDataTable" [mfRowsOnPage]="10" (mfSelectedEntities)="setSelectedEntities($event)">
+      <thead>
+        <tr>
+          <!--<th>
+                <mfRowSelectorHead></mfRowSelectorHead>
+            </th>-->
+          <th style="width: 20%">
+            <mfDefaultSorter by="name">Name</mfDefaultSorter>
+          </th>
+          <th style="width: 10%" *ngFor="let sub of studentClassSectionMarksData[0].marks">
+            <mfDefaultSorter by="subject">{{sub.subject_name}}</mfDefaultSorter>
+          </th>
+          <th style="width: 10%">
+            <mfDefaultSorter by="total">Total</mfDefaultSorter>
+          </th>
+          <th style="width: 10%">
+            <mfDefaultSorter by="remarks">Remarks</mfDefaultSorter>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of mf.data">
+          <!--<td><mfRowSelector [entity]="item" [checkboxId]="ndx"></mfRowSelector></td>-->
+          <td>{{item.txtFirstName}} {{item.txtLastName}} </td>
+          <td *ngFor="let stmarks of item.marks">{{stmarks.obtained_marks}}</td>
+          <td>{{item.totalMarks}}/{{item.totalMaxMarks}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="9">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

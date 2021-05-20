@@ -1,0 +1,52 @@
+@import '../../students/students.component.scss';
+
+#navlist li {
+	list-style: none;
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.33;
+	text-align: left;
+}
+
+@media (min-width:550px) {
+	#navlist {
+		padding: 15px 0 10px 0;
+		margin: 0;
+        background-color:#ffffff
+	}
+
+	#navlist li {
+		display: inline;
+	}
+
+	.navContainer {
+		height: 44px;
+	}
+}
+
+@media (max-width:550px) {
+	#navlist {
+		padding: 0;
+		margin: 0;
+		width: 100%;
+	}
+
+	#navlist li {
+		display: block;
+		text-align: center;
+	}
+}
+
+.navContainer {
+	background-color: #ffffff;
+}
+
+.tab {
+	padding: 10px 30px;
+	cursor: pointer;
+}
+
+.selected {
+	font-weight: bold;
+	border-bottom: 4px solid #3b5998;
+}

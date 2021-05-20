@@ -1,0 +1,7 @@
+<div class="row navContainer">
+  <ul id="navlist">
+    <li class="tab" [class.selected]="select==1" (click)="onClickLoadTab(1)"><a>Upcoming Events</a></li>
+    <li class="tab" [class.selected]="select==2" (click)="onClickLoadTab(2)"><a>My Events</a></li>
+  </ul>
+</div><br>
+<router-outlet></router-outlet>

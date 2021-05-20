@@ -1,0 +1,1 @@
+export {MasterRecordsComponent}  from './master-records.component'

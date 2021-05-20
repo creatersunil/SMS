@@ -1,0 +1,55 @@
+<!--Attendance Module Start  -->
+<div *ngIf="select==1">
+    <div class="row heading-content">
+    </div>
+    <div class="row">
+
+        <div class="col-xlg-8 col-lg-8 col-md-12 col-sm-12 col-12">
+            <ba-card *ngIf="disablecal">
+                <div>
+                    <ba-full-calendar [baFullCalendarConfiguration]="calendarConfiguration" baFullCalendarClass="blurCalendar" (onCalendarReady)="onCalendarReady($event)"></ba-full-calendar>
+                </div>
+                <div class="row">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-3">
+                        <div class="Rectangle-currentsection">
+                            <div class="Current-Selection">CurrentSelection</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="Rectangle-absent">
+                            <div class="Absent-section">Absent</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="Rectangle-leaves">
+                            <div class="Leave-section">Leave</div>
+                        </div>
+                    </div>
+                </div>
+
+            </ba-card>
+        </div>
+
+        <div class="col-xlg-4 col-lg-4 col-md-12 col-sm-12 col-12">
+            <ba-card>
+                <div class="circleAbsent">
+                    <div class="layer1">{{totalAbsents}}</div>
+                    <p class="Absent">Absent</p>
+                </div>
+                <br>
+                <div class="circleLeaves">
+                    <div class="layer2">{{attendanceModuleLeaves}}</div>
+                    <p class="Leaves">Leaves</p>
+                </div>
+                <br>
+                <div class="circleAttendance">
+                    <div class="layer3">{{totalPresentsDays}}</div>
+                    <p class="Attendance">Attendance</p>
+                </div>
+                <br>
+            </ba-card>
+        </div>
+    </div>
+</div>
+<!--Attendance Module End  -->

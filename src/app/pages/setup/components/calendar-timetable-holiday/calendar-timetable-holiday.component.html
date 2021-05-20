@@ -1,0 +1,518 @@
+<div class="row navContainer">
+    <ul id="navlist">
+        <li class="tab" [class.selected]="select==_TAB_CALENDER" (click)="onClickSelectTab(_TAB_CALENDER)"><a>Holiday</a></li>
+        <li class="tab" [class.selected]="select==_TAB_HOLIDAY" (click)="onClickSelectTab(_TAB_HOLIDAY)"><a>Calender</a></li>
+        <li class="tab" [class.selected]="select==_TAB_TIMETABLE" (click)="onClickSelectTab(_TAB_TIMETABLE)"><a>Timetable</a></li>
+    </ul>
+</div>
+
+<div>
+    <ngx-loading [show]="dbInProgreess" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+</div>
+
+<!--Holiday Template Starts-->
+<div *ngIf="select==_TAB_CALENDER">
+    <div class="row">
+        <div class="col-md-12" *ngIf="!editMode1">
+            <div class="txt-meneudata"> Status : <b>{{timetable_status}}</b> </div>
+            <button class="btn sub-button"  style="margin-top: 35px;" (click)="onClickHolidayEdit()">EDIT</button>
+            <button class="btn sub-button"  style="margin-top: 35px;" (click)="onClickHolidayApproval()">REQUEST APPROVAL</button>
+        </div>
+        <div class="col-md-12" *ngIf="editMode1">
+            <div class="txt-meneudata"> Status : <b>{{timetable_status}}</b> </div>
+            <button class="btn sub-button"  style="margin-top: 35px;" (click)="onClickHolidaySave()">SAVE</button>
+            <button class="btn sub-button"  style="margin-top: 35px;" (click)="onCilckHolidayCancel()">CANCEL</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xlg-8 col-lg-8 col-md-12 col-sm-12 col-12" *ngIf="!editMode1">
+            <ba-card>
+                <div *ngIf="openCalender">
+                    <ba-full-calendar [baFullCalendarConfiguration]="calendarConfiguration" baFullCalendarClass="blurCalendar" (onCalendarReady)="onCalendarReady($event)"></ba-full-calendar>
+                </div>
+            </ba-card>
+        </div>
+
+        <!--On Edit Mode Enabled-->
+        <div class="col-xlg-8 col-lg-8 col-md-12 col-sm-12 col-12" *ngIf="editMode1">
+            <ba-card>
+                <div ng-readonly="true">
+                    <ba-full-calendar [baFullCalendarConfiguration]="calendarConfiguration" baFullCalendarClass="blurCalendar" (onCalendarReady)="onCalendarReady($event)"></ba-full-calendar>
+                </div>
+            </ba-card>
+            <ba-card *ngIf="enableAdditionCalHol">
+                <div>
+                    <div class="row col-md-12">
+                        <div class="form-group col-md-4" style="color:#ccc;">
+                            <label>Name of the Event</label><input class="form-control" [(ngModel)]="titleData" type="text">
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label style="float:left">Event Color</label><span style="float:left" class="orgclr" [(colorPicker)]="color"
+                                [style.border-right-color]="color" (colorPickerChange)="onColorChange($event)"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn sub-button" (click)="onClickDone(description.value)">Done</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <div class="form-group" style="font-size:15px;font-weight:bold;color:#ccc;">
+                            <p> <label>Start Date: </label> <span style="color:#000;"> {{startDate | date: 'dd/MM/yyyy'}} </span>                                </p>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <div class="form-group" style="font-size:15px;font-weight:bold;color:#ccc;">
+                            <p> <label>End Date: </label> <span style="color:#000;"> {{endDate | date: 'dd/MM/yyyy'}} </span></p>
+                        </div>
+                    </div>
+
+                    <div class="row col-md-12">
+                        <div class="form-group col-md-12" style="color:#ccc;">
+                            <label>Description</label><textarea class="form-control" #description></textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+            </ba-card>
+        </div>
+        <!--On Edit Mode Enabled Ends-->
+
+        <div class="col-xlg-4 col-lg-4 col-md-12 col-sm-12 col-12">
+            <div class="weekly-all" *ngIf="!editMode1">
+                <span class="sub-head"> Holiday List </span>
+                <table class="table-content" [mfData]="holidayDataArray" #mf="mfDataTable" [mfRowsOnPage]="5">
+                    <tbody>
+                        <tr *ngFor="let holData of mf.data">
+                            <td><a> <span class="techername"> {{holData.title}} </span><span class="techer-name"> {{holData.start | date: 'dd/MM/yyyy'}} - {{holData.end | date: 'dd/MM/yyyy'}}</span></a></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="col-xlg-4 col-lg-4 col-md-12 col-sm-12 col-12">
+                                <mfBootstrapPaginator class="pagination"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div *ngIf="editMode1" class="weekly-all">
+                <span class="sub-head"> Holiday List </span>
+                <table class="table-content" [mfData]="holidayDataArray" #mf="mfDataTable" [mfRowsOnPage]="5">
+                    <tbody>
+                        <tr *ngFor="let holData of mf.data">
+                            <td><a> <span class="techername"> {{holData.title}} </span><span class="techer-name"> {{holData.start | date: 'dd/MM/yyyy'}} - {{holData.end | date: 'dd/MM/yyyy'}}</span></a></td>
+                            <td>
+                                <label style="margin-right: 10px" (click)="onRemoveHoliday(holData)"><b>&#x2716;</b></label>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="col-xlg-4 col-lg-4 col-md-12 col-sm-12 col-12">
+                                <mfBootstrapPaginator class="pagination"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Holiday Template Ends-->
+
+
+<!--Calender Template Starts-->
+<div *ngIf="select==_TAB_HOLIDAY">
+    <div class="row">
+        <div class="col-md-12" *ngIf="!editMode2">
+            <div class="txt-meneudata"> Status : <b>{{timetable_status}}</b> </div>
+            <button class="btn sub-button"   style="margin-top: 35px;"(click)="onClickCalenderEdit()">EDIT</button>
+            <button class="btn sub-button"  style="margin-top: 35px;" (click)="onClickCalenderApproval()">REQUEST APPROVAL</button>
+        </div>
+        <div class="col-md-12" *ngIf="editMode2">
+            <div class="txt-meneudata"> Status : <b>Pending Approval</b> </div>
+            <button class="btn sub-button"  style="margin-top: 35px;" (click)="onClickCalenderSave()">SAVE</button>
+            <button class="btn sub-button"  style="margin-top: 35px;" (click)="onCilckCalenderCancel()">CANCEL</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xlg-8 col-lg-8 col-md-12 col-sm-12 col-12" *ngIf="!editMode2">
+            <ba-card>
+                <div disabled="true">
+                    <ba-full-calendar [baFullCalendarConfiguration]="calendarConfiguration" baFullCalendarClass="blurCalendar" (onCalendarReady)="onCalendarReady($event)"></ba-full-calendar>
+                </div>
+            </ba-card>
+        </div>
+
+        <!--On Edit Mode Enabled-->
+        <div class="col-xlg-8 col-lg-8 col-md-12 col-sm-12 col-12" *ngIf="editMode2">
+            <ba-card>
+                <div ng-readonly="true">
+                    <ba-full-calendar [baFullCalendarConfiguration]="calendarConfiguration" baFullCalendarClass="blurCalendar" (onCalendarReady)="onCalendarReady($event)"></ba-full-calendar>
+                </div>
+            </ba-card>
+            <ba-card *ngIf="enableAdditionCalHol">
+                <div>
+                    <div class="row col-md-12">
+                        <div class="form-group col-md-4" style="color:#ccc;">
+                            <label>Name of the Event</label><input class="form-control" [(ngModel)]="titleData" type="text">
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label style="float:left">Event Color</label><span style="float:left" class="orgclr" [(colorPicker)]="color"
+                                [style.border-right-color]="color" (colorPickerChange)="onColorChange($event)"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn sub-button"  style="margin-top: 35px;" (click)="onClickDone(descrptn.value)">Done</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <div class="form-group" style="font-size:15px;font-weight:bold;color:#ccc;">
+                            <p> <label>Start Date: </label> <span style="color:#000;"> {{startDate | date: 'dd/MM/yyyy'}} </span>                                </p>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <div class="form-group" style="font-size:15px;font-weight:bold;color:#ccc;">
+                            <p> <label>End Date: </label> <span style="color:#000;"> {{endDate | date: 'dd/MM/yyyy'}} </span></p>
+                        </div>
+                    </div>
+
+                    <div class="row col-md-12">
+                        <div class="form-group col-md-12" style="color:#ccc;">
+                            <label>Description</label><textarea class="form-control" #descrptn></textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+            </ba-card>
+        </div>
+        <!--On Edit Mode Enabled Ends-->
+
+        <div class="col-xlg-4 col-lg-4 col-md-12 col-sm-12 col-12">
+            <div class="weekly-all" *ngIf="!editMode2">
+                <span class="sub-head">  Academic Calender  </span>
+                <table class="table-content" [mfData]="calenderDataArray" #mf="mfDataTable" [mfRowsOnPage]="5">
+                    <tbody>
+                        <tr *ngFor="let calData of mf.data">
+                            <td><a> <span class="techername"> {{calData.title}} </span><span class="techer-name"> {{calData.start | date: 'dd/MM/yyyy'}} - {{calData.end | date: 'dd/MM/yyyy'}}</span></a></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="col-xlg-4 col-lg-4 col-md-12 col-sm-12 col-12">
+                                <mfBootstrapPaginator class="pagination"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div *ngIf="editMode2" class="weekly-all">
+                <span class="sub-head">  Academic Calender  <img src="../../../../../assets/new-images/allocation.png" alt="Allocation Icon" class="img-responsive"></span>
+                <table class="table-content" [mfData]="calenderDataArray" #mf="mfDataTable" [mfRowsOnPage]="5">
+                    <tbody>
+                        <tr *ngFor="let calData of mf.data">
+                            <td><a> <span class="techername"> {{calData.title}} </span><span class="techer-name"> {{calData.start | date: 'dd/MM/yyyy'}} - {{calData.end | date: 'dd/MM/yyyy'}}</span></a></td>
+                            <td>
+                                <label style="margin-right: 10px" (click)="onRemoveHoliday(calData)"><b>&#x2716;</b></label>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="col-xlg-4 col-lg-4 col-md-12 col-sm-12 col-12">
+                                <mfBootstrapPaginator class="pagination"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Time Table -->
+<div *ngIf="select==_TAB_TIMETABLE">
+    <div class="row" *ngIf="!enableEmptyTable">
+
+        <div class="col-md-12" *ngIf="!editMode3">
+            <div class="txt-meneudata"> Status : <b>{{timetable_status}}</b> </div>
+
+            <button class="btn sub-button"  style="margin-top: 35px;" (click)="onClickTimetableApproval()">REQUEST APPROVAL</button>
+            <button class="btn sub-button" style="margin-top: 35px;" (click)="onClickTimetableEdit()">EDIT</button>
+            <a style="float: right ; height: 48px ; margin: 32px 0;cursor: pointer;" (click)="onClickEnableCreateTimetable()"> <img src="../../../../../assets/new-images/setup.png" alt="Setup Icon" class="img-responsive del"> </a>
+        </div>
+        <div class="col-md-12" *ngIf="editMode3">
+            <div class="txt-meneudata"> Status : <b>{{timetable_status}}</b> </div>
+
+            <button class="btn sub-button"   style="margin-top: 35px;" (click)="onCilckTimetableApproval()" disabled="true">REQUEST APPROVAL</button>
+            <button class="btn sub-button"  style="margin-top: 35px;" (click)="onClickTimetableSave()">SAVE</button>
+            <a style="float: right ; height: 32px ; margin: 32px 0;cursor: pointer;"> <img src="../../../../../assets/new-images/setup.png" alt="Setup Icon" class="img-responsive del"> </a>
+
+        </div>
+
+
+    </div>
+    <div class="row" *ngIf="enableEmptyTable">
+        <div class="col-md-12 prev-next">
+            <a  style="cursor: pointer;" class="txt-meneudata">   <img src="../../../../../assets/new-images/left.png" alt="Previous icon" class="img-responsive prev" (click)="enableEmptyTable=!enableEmptyTable"><span> Structure </span> </a>
+            <button class="btn sub-button"  style="margin-top: 35px;" (click)="onClickCreateTimetableSave()">Save</button>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="!enableEmptyTable">
+        <div class="col-xlg-8 col-lg-8 col-md-12 col-sm-12 col-12" *ngIf="!editMode1">
+            <div *ngIf="!enableEmptyTable">
+                <table class="table table-bordered myact" style="background-color: #ffffff">
+                    <tbody>
+                        <tr style="border-style: solid;border-bottom-color: #BBDEFB;">
+                            <th class="active" #class_ele_ref *ngFor="let class of classes" (click)="onSelectClass(class)"><button [ngClass]="setBtnClass()" >{{class.class_name}}</button></th>
+
+                        </tr>
+
+                        <tr>
+                            <th class="active" *ngFor="let section of sections" (click)="onSelectSections(section) ;"><button class="classbtn">
+                                {{section.section_name}}</button></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="background-color: #ffffff">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th> Type</th>
+                                <th> Time</th>
+                                <th *ngFor="let days of workingDays">{{days.day}}</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="!editMode3">
+                            <tr *ngFor="let timing of classTimings">
+                                <td *ngIf="_PERIOD===timing.name">
+                                    <img src="../../../../../assets/new-images/period.png" alt="Period Icon">
+                                </td>
+                                <td *ngIf="_BREAK===timing.name">
+                                    <img src="../../../../../assets/new-images/break.png" alt="Break Icon">
+                                </td>
+                                <td *ngIf="_LUNCH===timing.name">
+                                    <img src="../../../../../assets/new-images/lunch.png" alt="Lunch Icon">
+                                </td>
+                                <td>{{timing.timings | number : '1.2-2' }}</td>
+
+                                <td *ngFor="let day of workingDays">
+
+                                    <div *ngIf="(_LUNCH!=timing.name) && (_BREAK!=timing.name) &&(loadTimeTable.length > 0)">
+
+                                        <div *ngFor="let weekly of loadTimeTable">
+                                            <div *ngIf="(weekly.time_start == timing.timings) && (weekly.day_name == day.day)">
+                                                {{weekly.subject_name}} <span class="techer-name"> {{weekly.teacher_name}}</span>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <div *ngIf="(_LUNCH===timing.name)">
+                                        <span class="techer-name"> {{_LUNCH}}</span>
+                                    </div>
+
+                                    <div *ngIf="(_BREAK===timing.name)">
+                                        <span class="techer-name"> {{_BREAK}}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <!--On Edit Mode-->
+                        <tbody *ngIf="editMode3">
+                            <tr *ngFor="let timing of classTimings">
+                                <td *ngIf="_PERIOD===timing.name">
+                                    <img src="../../../../../assets/new-images/period.png" alt="Period">
+                                </td>
+                                <td *ngIf="_BREAK===timing.name">
+                                    <img src="../../../../../assets/new-images/break.png" alt="Break">
+                                </td>
+                                <td *ngIf="_LUNCH===timing.name">
+                                    <img src="../../../../../assets/new-images/lunch.png" alt="Lunch ">
+                                </td>
+                                <td>{{timing.timings | number : '1.2-2'}}</td>
+                                <td *ngFor="let day of workingDays">
+                                    <div *ngIf="(_LUNCH!=timing.name) && (_BREAK!=timing.name)">
+
+                                        <time-table #timetable [timetable]="timetable"></time-table>
+
+                                        <div *ngFor="let weekly of loadTimeTable">
+                                            <div *ngIf="(weekly.time_start == timing.timings) && (weekly.day_name == day.day)">
+                                                <child-table [day_name]="day.day" [time_start]="timing.timings" [class_id]="_selected_class.class_id" [class_name]="_selected_class.class_name"
+                                                    [_id]="weekly._id" [subject_name]="weekly.subject_name" [teacher_name]="weekly.teacher_name"
+                                                    [subject_id]="weekly.subject_id" [reg_id]="weekly.reg_id" [time_end]="weekly.time_end"
+                                                    [section_name]="weekly.section_name" [section_id]="weekly.section_id" [approved]="weekly.approved"
+                                                    [approved_date]="weekly.approved_date" [approved_by]="weekly.approved_by"
+                                                    [approver_name]="weekly.approver_name" [timetable]="timetable">
+
+                                                </child-table>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <select *ngIf="(enabledSubjects.length >0) && (timetable.subject_name == '')" style="width:100%;" (change)="onSelectSubjet($event.target.value,enabledSubjects,timetable)">
+                                           <option value="-1">Select </option>
+                                            <option  *ngFor="let subject of enabledSubjects" class="inputTeacher"  value="{{subject.subject_id}}" >
+                                                 {{subject.subject_name}}
+                                            </option>
+                                         </select>
+                                        </div>
+                                        <span class="techer-name">
+                                         <select *ngIf="(teacherSKillDataBasedOnPerSkill.length >0) && (timetable.teacher_name === '') && (timetable.subject_name != '')" style="width:100%;" (change)="setTeacherName($event.target.value,teacherSKillDataBasedOnPerSkill,timetable,timing,day)">
+                                               <option value="-1">Select </option>
+                                                <option  *ngFor="let teacher of teacherSKillDataBasedOnPerSkill"   [value]="teacher.intRegistrationId"  class="inputTeacher"  >
+                                                    {{teacher.txtFirstName}} {{teacher.txtLastName}}
+                                                </option>
+                                        </select>
+                                    </span>
+
+                                    </div>
+
+                                    <div *ngIf="(_LUNCH===timing.name)">
+                                        <span class="techer-name"> {{_LUNCH}}</span>
+                                    </div>
+
+                                    <div *ngIf="(_BREAK===timing.name)">
+                                        <span class="techer-name"> {{_BREAK}}</span>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div *ngIf="sub_week_hrs_split.length > 0" class="weekly-all">
+                <span class="sub-head"> Subject Weekly Allocation </span>
+                <div class="table-responsive">
+                    <table class="table table-bordered" style="background-color: #ffffff">
+                        <tbody>
+                            <div *ngIf="sub_week_hrs_split.length > 0">
+                                <tr *ngFor=" let subj_split of sub_week_hrs_split">
+                                    <td *ngFor=" let subh of subj_split" style="border: none !important;"> {{subh.name}} <span class="techer-name">{{subh.hours}} Hrs/ Week</span> </td>
+                                </tr>
+                            </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xlg-4 col-lg-4 col-md-12 col-sm-12 col-12">
+            <div class="time-duration">
+                <a> <span class="time-name">School Start Time </span> <span class="s-time">{{mstWorkingHours.start_time}} Hrs </span> </a>
+                <a> <span class="time-name">School End Time </span> <span class="s-time">{{mstWorkingHours.end_time}} Hrs </span> </a>
+                <a> <span class="time-name"> Period Duration </span> <span class="duration">{{mstWorkingHours.period_duration}} Min </span> <img src="../../../../../assets/new-images/period.png" alt="Period Icon" class="img-responsive"> </a>
+                <a> <span class="time-name">Short Break  </span> <span class="duration">{{mstWorkingHours._break}} Min </span> <img src="../../../../../assets/new-images/break.png" alt="Break Icon" class="img-responsive">  </a>
+                <a> <span class="time-name"> Lunch Duration </span> <span class="duration">{{mstWorkingHours.lunch}} Min </span> <img src="../../../../../assets/new-images/lunch.png" alt="Lunch Icon" class="img-responsive"> </a>
+            </div>
+            <div *ngIf="tchr_week_hrs.length>0" class="weekly-all">
+                <span class="sub-head"> Teachers Weekly Allocation  <img src="../../../../../assets/new-images/allocation.png" alt="Allocation Icon" class="img-responsive"></span>
+                <!-- <table class="table-content"> -->
+                <table class="table-content" [mfData]="tchr_week_hrs" #mf="mfDataTable" [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+                    <tbody>
+                        <tr *ngFor="let t_hrs of mf.data">
+                            <td><a> <span class="techername"> {{t_hrs.name}} </span><span class="techer-name"> {{t_hrs.hours}} Hrs/ Week</span></a></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="col-xlg-4 col-lg-4 col-md-12 col-sm-12 col-12">
+                                <mfBootstrapPaginator class="pagination"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <div *ngIf="enableEmptyTable">
+        <div class="row">
+            <div class="col-xlg-8 col-lg-8 col-md-12 col-sm-12 col-12">
+                <img src="../../../../../assets/new-images/period.png" alt="Period Icon" class="img-responsive break" style="cursor: pointer"
+                    (click)="onClickPeriodIcon()">
+                <img src="../../../../../assets/new-images/break.png" alt="Break Icon" class="img-responsive break" style="cursor: pointer"
+                    (click)="onClickBreakIcon()">
+                <img src="../../../../../assets/new-images/lunch.png" alt="Lunch Icon" class="img-responsive break" style="cursor: pointer"
+                    (click)="onClickLunchIcon()">
+                <div class="pull-right"><img src="../../../../../assets/new-images/delete.png" alt="Period Icon" class="img-responsive break pull right"
+                        style="cursor: pointer;" (click)="onClickDeleteIcon()"></div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xlg-8 col-lg-8 col-md-12 col-sm-12 col-12">
+
+                <div class="table-responsive" style="background-color: #fff; margin: 6px 2px;">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th> &#x2716; </th>
+                                <th>Type </th>
+                                <th>Timings </th>
+                                <th *ngFor="let days of workingDays"> {{days.day}} </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let time of classTimings">
+                                <td> <label *ngIf="(classTimings.indexOf(time)== classTimings.length -1)  && (classTimingsApend.length > 0)"
+                                        (click)="onRemoveTime(time)"> &#x2716; </label></td>
+                                <td *ngIf="_PERIOD===time.name">
+                                    <img src="../../../../../assets/new-images/period.png" alt="Period Icon">
+                                </td>
+                                <td *ngIf="_BREAK===time.name">
+                                    <img src="../../../../../assets/new-images/break.png" alt="Break Icon">
+                                </td>
+                                <td *ngIf="_LUNCH===time.name">
+                                    <img src="../../../../../assets/new-images/lunch.png" alt="Lunch Icon">
+                                </td>
+                                <td> <label>{{time.timings | number : '1.2-2'}}</label> </td>
+                                <td *ngFor="let day of workingDays"> </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <!--Input School working hours -->
+
+            <div class="col-xlg-4 col-lg-4 col-md-12 col-sm-12 col-12" style="margin: 6px 0px">
+                <div class="time-duration">
+                    <form [formGroup]="frm_working_hrs">
+                        <a> <span class="time-name">School Start Time </span> <span class="s-time"><input formControlName="start_time" type="number" style="border:none;height: auto;width: 75%;" value="01.00" min="01" max="11">Hr </span> </a>
+                        <a> <span class="time-name">School End Time </span> <span class="s-time"><input formControlName="end_time" type="number" style="border:none;height: auto;width: 75%;" value="17.00"  min="12" max="23" >Hr</span> </a>
+                        <a> <span class="time-name"> Period Duration </span> <span class="duration"><input formControlName="period_duration" type="number" style="border:none;height: auto;width: 65%;" value="60.00"  min="10" max="60">Min</span> <img src="../../../../../assets/new-images/period.png" alt="Period Icon" class="img-responsive"> </a>
+                        <a> <span class="time-name">Short Break  </span> <span class="duration"><input formControlName="break" type="number" style="border:none;height: auto;width: 65%;" value="15.00"  min="05" max="15">Min</span> <img src="../../../../../assets/new-images/break.png" alt="Break Icon" class="img-responsive">  </a>
+                        <a> <span class="time-name"> Lunch Duration </span> <span class="duration"><input formControlName="lunch" type="number" style="border:none;height: auto;width: 65%;" value="60.00"  min="10" max="60">Min</span> <img src="../../../../../assets/new-images/lunch.png" alt="Lunch Icon" class="img-responsive"> </a>
+
+                    </form>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+</div>
+
+

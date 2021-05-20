@@ -1,0 +1,1 @@
+export {MasterCityComponent} from './master-city.component'

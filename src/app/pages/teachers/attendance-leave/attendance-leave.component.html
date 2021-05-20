@@ -1,0 +1,133 @@
+<div class="row navContainer">
+  <ul id="navlist">
+    <li class="tab" [class.selected]="select==1" (click)="onClickSelectTab(1)"><a>Overview</a></li>
+    <li class="tab" [class.selected]="select==2" (click)="onClickSelectTab(2)"><a>List</a></li>
+  </ul>
+</div>
+<br><br>
+<div *ngIf="select == 1">
+  <!-- <div class="row upppetxtbar">
+
+    <div class="col-sm-1.5">
+      <select *ngIf="classes.length >0" class="form-control no-border" (change)="onClickClass($event.target.value); onSelectSectionWRTClass($event.target.value)">
+              <option value="-1">class</option>
+              <option *ngFor="let class of classes" value="{{class.class_id}}" >
+                  {{class.class_name}}
+              </option>
+          </select>
+    </div>
+    <div class="col-sm-1.5">
+      <select placeholder="Sections" *ngIf="sections.length >0" name="section" class="form-control no-border" (change)="onselectSection($event.target.value)">
+                     <option value="-1">section</option>
+                     <option  *ngFor="let section of sectionNames" value="{{section.section_id}}"  >
+                               {{section.section_name}}
+                     </option>
+          </select>
+    </div>
+    <div class="col-sm-3 form-group">
+      <input type="text" [(ngModel)]="term" placeholder="search" class="form-control" style="border-top: none ;border-left: none; border-right: none; height: 28px">
+    </div>
+
+  </div><br> -->
+  <!-- <div class="row">
+    <div class="txtclasssection">
+      <p class="heading-paragrp" style="padding: 0px 0px 0px 7px;">{{selectedClass}}</p>
+    </div>
+    <div class="txtclasssection">
+      <p class="heading-paragrp" style="padding: 0px 0px 0px 7px;">{{selectedsection}}</p>
+    </div>
+  </div> -->
+
+  <!--<div>-->
+  <div class="row">
+    <div style="display: block" class="col-sm-6">
+      <ba-card title="Today" baCardClass="with-scroll">
+        <canvas baseChart [datasets]="datasets" *ngIf="enableTeacherPieChart" width="400" height="270" [labels]="pieChartLabels"
+          [colors]="colors" [chartType]="pieChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+      </ba-card>
+    </div>
+    <div style="display: block" class="col-sm-6">
+      <ba-card title="Today" baCardClass="with-scroll">
+        <canvas baseChart width="400" height="270" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+          [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+      </ba-card>
+    </div>
+  </div><br>
+  <div class="row widgets">
+    <div class="col-lg-6 col-md-12">
+      <ba-card title="Absentees" baCardClass="with-scroll table-panel">
+        <div class="vertical-scroll">
+          <table class="table table-striped">
+            <tbody>
+              <tr *ngFor="let item of teachersAttendanceList">
+                <td *ngIf="item.todayStatus=='Absent'">{{item.txtFirstName}} {{item.txtLastName}}</td>
+                <td *ngIf="item.todayStatus=='Absent'">{{item.absents}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ba-card>
+    </div>
+    <div class="col-lg-6 col-md-12">
+      <ba-card title="Teachers On Leave" baCardClass="with-scroll table-panel">
+        <div class="vertical-scroll">
+          <table class="table table-striped">
+            <tbody>
+              <tr *ngFor="let item of teachersOnLeaveData">
+                <td>{{item.txtFirstName}} {{item.txtLastName}}</td>
+                <td>2</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </ba-card>
+    </div>
+  </div>
+</div>
+<div *ngIf="select ==2">
+  <div class="col-md-12">
+    <table class="table" [mfData]="teachersAttendanceList" #mf="mfDataTable" [mfRowsOnPage]="6" (mfSelectedEntities)="setSelectedEntities($event)">
+      <thead>
+        <tr>
+          <th style="width: 20%">
+            <mfDefaultSorter by="name">Name</mfDefaultSorter>
+          </th>
+          <th style="width: 20%">
+            <mfDefaultSorter by="class_teacher">Class Teacher</mfDefaultSorter>
+          </th>
+          <th style="width: 15%">
+            <mfDefaultSorter by="today">Today</mfDefaultSorter>
+          </th>
+          <th style="width: 15%">
+            <mfDefaultSorter by="leave">Leave</mfDefaultSorter>
+          </th>
+          <th style="width: 15%">
+            <mfDefaultSorter by="absent">Absent</mfDefaultSorter>
+          </th>
+          <th style="width: 15%">
+            <mfDefaultSorter by="total">Total</mfDefaultSorter>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of mf.data">
+          <td>{{item.txtFirstName}} {{item.txtLastName}} </td>
+          <td>{{item.class_name}} {{item.section_name}}</td>
+          <td>{{item.todayStatus}}</td>
+          <td>{{item.leaves}}</td>
+          <td>{{item.absents}}</td>
+          <td>{{item.total}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="6">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

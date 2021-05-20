@@ -1,0 +1,17 @@
+<ba-card baCardClass="with-scroll">
+    <div class="row">
+      <div  class="col-md-4">
+         <div class="form-group">   
+             <label *ngIf="classDataLoad.length >0" class="control-label" for="classname">CLASS NAME</label>
+                    <select *ngIf="classDataLoad.length >0" class="form-control" (change)="onselect($event.target.value)">
+                           <option value="0">Select</option>
+                             <option *ngFor="let classdata of classDataLoad" value="{{classdata.class_id}}" class="form-control">{{classdata.class_name}}</option>
+                   </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+        <ng2-smart-table  [settings]="settings" [source]="source" (userRowSelect)="selected($event)"></ng2-smart-table>
+    </div>
+</ba-card>

@@ -1,0 +1,98 @@
+<div class="row remove-margin">
+  <div class="col-md-12 remove-padding">
+    <!--*ngIf="!editMode"-->
+    <label style="margin:20px 0; padding:7px 0px; font-size:20px;">Class: </label>
+    <select class="select-box" *ngIf="classes.length >0" (change)="onClassSeclect($event.target.value)">
+     
+      <option class="select-options" *ngFor="let class of classes" value="{{class.class_id}}">{{class.class_name}}</option>
+    </select>
+    <button class="btn sub-button" (click)="onClickEditBtn()" *ngIf="!editMode" [disabled]="disableEdit">EDIT</button>
+    <button class="btn sub-button" (click)="onClickSaveBtn()" *ngIf="editMode">SAVE</button>
+    <button class="btn sub-button" (click)="onClickCancelBtn()" *ngIf="editMode">CANCEL</button>
+  </div>
+</div>
+
+<div class="row remove-marg in" style="background-color:#ffffff;" *ngIf="enableView">
+  <div class="col-md-12" style="padding-left:5px;">
+    <label style="margin:20px 0; padding:7px 0 0 5%; font-size:16px;">Status : </label><label style="padding-left:10px; font-weight:600;">Pending Approval</label>
+    <button class="btn sub-button" (click)="onClickRequestApproval()" *ngIf="!editMode">REQUEST APPROVAL</button>
+    <!--<button class="btn-school" (click)="onClickRequestApproval()" *ngIf="editMode"><label class="btn-school-text">DOWN</label></button>
+    <button class="btn-school" (click)="onClockUp()" *ngIf="editMode"><label class="btn-school-text">UP</label></button>-->
+    <!--<button class="btn-school" (click)="onClickRequestApproval()" *ngIf="editMode"><span class="glyphicon glyphicon-chevron-down"></span></button>
+    <button class="btn-school" (click)="onClickRequestApproval()" *ngIf="editMode"><span class="glyphicon glyphicon-chevron-up"></span></button>-->
+    <button class="btn sub-button" (click)="onClickAddFeeComponent()" *ngIf="editMode">ADD</button>
+  </div>
+  <div class="col-md-12 responsiveTable" style="padding:0 5px;">
+    <table class="table" style="box-shadow:none;">
+      <thead>
+        <tr>
+          <th class="table-heading">Components</th>
+          <th class="table-heading">Monthly</th>
+          <th class="table-heading">Yearly</th>
+          <th class="table-heading">Actions</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!editMode">
+
+        <tr class="trbottom" *ngFor="let fee of feeCreationDataArray">
+          <td class="table-rowData ">{{fee.fee_name}}</td>
+          <td class="table-rowData" *ngIf="fee.monthlyFee >0 ; else notAvailable">{{fee.monthlyFee}}</td>
+          <ng-template #notAvailable>
+            <td class="table-rowData"> -NA-</td>
+          </ng-template>
+          <td class="table-rowData" *ngIf="fee.yearlyFees >0 ; else YearlyNotAvailable">{{fee.yearlyFees}}</td>
+          <ng-template #YearlyNotAvailable>
+            <td class="table-rowData">-NA-</td>
+          </ng-template>
+          <td class="table-rowData">
+            <label class="switch">
+                           <input  disabled type="checkbox" [(ngModel)]="fee.is_active" (change)="onCreateFeeAmounts(fee)">
+                               <div class="slider round"> </div>
+          </label></td>
+
+        </tr>
+      </tbody>
+      <tbody *ngIf="addFeeComponent">
+        <tr>
+          <td class="table-rowData"><input type="text" class="table-textBox" placeholder="Create New fee name" #componentName/></td>
+          <td class="table-rowData"><input type="text" class="table-textBox" OnlyNumber="true" placeholder="Add monthly Fee" #monthlyFee/></td>
+          <td class="table-rowData"><input type="text" class="table-textBox" OnlyNumber="true" placeholder="Add Yearly Fee" #yearlyFees/></td>
+          <td class="table-rowData"><label (click)="onClickCreateComponent(componentName.value,monthlyFee.value,yearlyFees.value)">✔</label><br>
+            <label (click)="onClickCancelAddFeeComponent()"> X</label>
+          </td>
+        </tr>
+        <tr>
+          <td class="table-rowData">
+            <select class="my_dropdown" id="my_dropdown" (change)="onSelectDropdown($event.target.value)">
+                            <option value="-1">Select Existing Fee </option>
+                            <option  *ngFor="let fees of feesDetails"  value="{{fees.fees_ref_id}}"  class="inputTeacher"  >
+                                      {{fees.fee_name}}
+                            </option>
+                  </select></td>
+          <td class="table-rowData"><input type="text" OnlyNumber="true" class="table-textBox" placeholder="Add monthly Fee" #monthlyFee/></td>
+          <td class="table-rowData"><input type="text" OnlyNumber="true" class="table-textBox" placeholder="Add Yearly Fee" #yearlyFees/></td>
+          <td class="table-rowData"><label (click)="onAddExistingDataToComponent(monthlyFee.value,yearlyFees.value)">✔</label><br>
+            <label (click)="onClickCancelAddFeeComponent()"> X</label>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="editMode">
+        <tr *ngFor="let fee of feeCreationDataArray;">
+          <td class="table-rowData"><input type="text" class="table-textBox" [(ngModel)]="fee.fee_name" (change)="onEditFeeComponentName(fee)"></td>
+          <td class="table-rowData"><input type="text" class="table-textBox" OnlyNumber="true" [(ngModel)]="fee.monthlyFee" (change)="onCreateFeeAmounts(fee)"
+            /></td>
+          <td class="table-rowData"><input type="text" class="table-textBox" OnlyNumber="true" [(ngModel)]="fee.yearlyFees" (change)="onCreateFeeAmounts(fee)"
+            /></td>
+          <td class="table-rowData">
+            <label class="switch">
+                           <input type="checkbox" [(ngModel)]="fee.is_active" (change)="onCreateFeeAmounts(fee)">
+                               <div class="slider round"> </div>
+          </label>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!--<label (click)="onClickRemoveFeeComponent(fee)">X</label>-->

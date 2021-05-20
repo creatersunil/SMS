@@ -1,0 +1,118 @@
+
+
+body {
+	background-color: #000099 !important;	
+}
+
+.wrapper {	
+   
+    margin: 180px 0px 0px 20px;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.row {
+    
+    margin: 0px 0px 0px 0px;
+  
+}
+
+
+
+.form-signin {
+width: 480px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.1);  
+ border-radius: 4px;
+ margin: -150px 0px 0px 250px;
+ height: 308;
+}
+  .form-signin-heading,
+	.checkbox {
+	  margin-bottom: 30px;
+	   margin: 2px 0px 40px 144px;
+    color: #3c5a9a;
+	}
+
+	.checkbox {
+	  font-weight: normal;
+	}
+
+	.form-control {
+	  position: relative;
+	  font-size: 16px;
+	  height: auto;
+	  padding: 10px;
+	  opacity: 0.4;
+	}
+
+	input[type="text"] {
+	  margin-bottom: -1px;
+	  border-bottom-left-radius: 0;
+	  border-bottom-right-radius: 0;
+       opacity: 0.5;
+  border: solid 2px #3c5a9a;
+   border-top: none;
+      border-right: none;
+      border-left: none;
+      border-radius: 0px;
+      padding: 13px 0px 0px 0px;
+ 
+	}
+
+	input[type="password"] {
+	  margin-bottom: 20px;
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+       opacity: 0.5;
+  border: solid 2px #3c5a9a;
+   border-top: none;
+      border-right: none;
+      border-left: none;
+      border-radius: 0px;
+      padding: 13px 0px 0px 0px;
+
+	}
+
+.form-signin-heading {
+    
+    margin: 2px 0px 40px 92px;
+    color: #000099;
+}
+.schoolname{
+	color: #ffcb00;
+	float: left;
+    width: 100%;
+    margin: 0px 0px 0px 100px;
+text-align: center;
+}
+
+img {
+    vertical-align: middle;
+    margin: 80px 0px 0px 153px;
+}
+
+
+.footsec{
+    
+    float: left!important;
+    font-family: opensans !important;
+    text-align: left !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin: 145px 0px 0px -2px;
+    padding: 0px 92px 0px 105px;
+
+}
+.h4, .h5, .h6, h4, h5, h6 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: -116px;
+    margin-right: 0px;
+}
+.contactsec{
+	float: right;
+	margin: 0px -100px 0px 0px;
+}

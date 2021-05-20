@@ -1,0 +1,55 @@
+<div>
+  <form [formGroup]="myForm">
+    <div class="row remove-margin">
+      <div class="col-md-12 remove-padding">
+        <a class="txt-meneudata"> <img src="../../../../assets/new-images/left.png" alt="Previous icon" class="img-responsive prev" style="cursor: pointer" (click)="goBack2Parent()">
+          <h6 style="height: 45px; padding:  11px 47px ">New Event</h6>
+        </a>
+        <button class="btn sub-button" type="button" (click)="goBack2Parent()">CANCEL</button>
+        <button class="btn sub-button" type="submit" (click)="createEvent()" [disabled]="!myForm.valid">CREATE</button>
+      </div>
+    </div>
+    <ba-card>
+      <div class="card-body">
+        <br><br>
+        <div class="row">
+          <div class="form-group col-sm-4">
+            <label for="eventName">Name</label>
+            <input type="text" class="form-control" formControlName="eventName" required>
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="eventClass">Class</label>
+            <input type="text" class="form-control" formControlName="eventClass" required>
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="eventSection">Section</label>
+            <input type="text" class="form-control" formControlName="eventSection" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-4">
+            <label for="startDate">Start Date</label>
+            <input type="date" class="form-control" formControlName="startDate" required #formDate>
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="endDate">End Date</label>
+            <input type="date" class="form-control" formControlName="endDate" required #formDate>
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="daysRequested">Days:</label>
+            <input type="text" readonly="true" formControlName="daysRequested" required value="10" class="form-control">
+          </div>
+        </div>
+        <br>
+
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="eventDescription">Comments:</label>
+            <textarea class="form-control" formControlName="eventDescription" required maxlength="250"></textarea>
+          </div>
+        </div>
+      </div>
+    </ba-card>
+  </form>
+</div>

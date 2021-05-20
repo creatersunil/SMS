@@ -1,0 +1,387 @@
+<div *ngIf="!disableListOnclickStudent">
+    <div class="row upppetxtbar">
+        <div class="col-sm-1.5">
+            <select *ngIf="classes.length >0" class="form-control no-border" (change)="onClickClass($event.target.value) ; onSelectSectionWRTClass($event.target.value)">
+              <option value="-1">class</option>
+              <option *ngFor="let class of classes" value="{{class.class_id}}" >
+                  {{class.class_name}}
+              </option>
+          </select>
+        </div>
+        <div class="col-sm-1.5">
+            <select placeholder="Sections" *ngIf="sections.length >0" name="section" class="form-control no-border" (change)="onselectSection($event.target.value)">
+                     <option value="-1">section</option>
+                     <option  *ngFor="let section of sectionNames" value="{{section.section_id}}"  >
+                               {{section.section_name}}
+                     </option>
+          </select>
+        </div>
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-3 form-group">
+            <input type="text" [(ngModel)]="term" placeholder="search" class="form-control" style="border-top: none ;border-left: none; border-right: none; height: 28px">
+        </div>
+    </div>
+    <div class="row">
+        <div class="txtclasssection">
+            <p class="heading-paragrp" style="padding: 0px 0px 0px 7px;">{{selectedClass}}</p>
+        </div>
+        <div class="txtclasssection">
+            <p class="heading-paragrp" style="padding: 0px 0px 0px 7px;">{{selectedsection}}</p>
+        </div>
+    </div>
+
+
+    <div>
+        <table class="table" [mfData]="studentDetails" #mf="mfDataTable" [mfRowsOnPage]="10">
+            <thead>
+                <tr>
+                    <!--<th>
+                <mfRowSelectorHead></mfRowSelectorHead>
+            </th>-->
+                    <th style="width: 25%">
+                        <mfDefaultSorter by="name">Name</mfDefaultSorter>
+                    </th>
+                    <th style="width: 25%">
+                        <mfDefaultSorter by="admissionNo">Roll No</mfDefaultSorter>
+                    </th>
+                    <th style="width: 25%">
+                        <mfDefaultSorter by="age">Address</mfDefaultSorter>
+                    </th>
+                    <th style="width: 25%">
+                        <mfDefaultSorter by="city">Email</mfDefaultSorter>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of mf.data |filter:term" (click)="onClickStudent(item)" style="cursor: pointer">
+                    <!--<td><mfRowSelector [entity]="item" [checkboxId]="ndx"></mfRowSelector></td>-->
+                    <td>{{item.txtFirstName}} {{item.txtLastName}}</td>
+                    <td>{{item.intRegistrationId}}</td>
+                    <td>{{item.txtPerAddress}}</td>
+                    <td>{{item.txtEmailId}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <mfBootstrapPaginator  class="pagination"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+<!--Show Profile of Student-->
+<div *ngIf="disableListOnclickStudent">
+    <div class="row remove-margin">
+        <div class="col-md-12 remove-padding">
+            <a class="txt-meneudata">    <img src="../../../../assets/new-images/left.png" alt="Previous icon" class="img-responsive prev" (click)="onClickbackToList()"><h6 style="height: 45px; padding:  11px 47px ; font-size: 14px; color: #323232;"> Profile </h6></a>
+            <button class="btn sub-button" type="submit" (click)="onClickUpdate()">UPDATE</button>
+        </div>
+    </div>
+    <div>
+        <div class="row profileDevision" *ngFor="let student of perticulrStudentDetails">
+
+            <div class="col-sm-3">
+                <div class="form-group text-center">
+                    <img src="../../../../assets/new-images/studentphoto.jpeg" alt="student" class="img-size img-responsive tocenter">
+                </div>
+                <div class="form-group">
+                    <p class="content-bold" style="text-align: center"> {{student.txtFirstName}} {{student.txtLastName}}</p>
+                </div>
+                <div class="form-group">
+                    <p class="content-light" style="text-align: center"> {{selectedClass}} STD</p>
+                </div>
+
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group"><br>
+                    <p class="content-bold">CONTACT DETAILS</p>
+                </div>
+                <div class="form-group">
+                    <p class="content-light">{{student.txtEmailId}}</p>
+                </div>
+                <div class="form-group">
+                    <p class="content-light">+91 {{student.txtFMobileNumber}}</p>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group"><br>
+                    <p class="content-bold">RESIDENTIAL ADDRESS</p>
+                </div>
+                <div class="form-group">
+                    <p class="content-light; white-space:pre-line; line-height: 2;">{{student.txtPerAddress}}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br>
+
+    <div class="row navContainer">
+        <ul id="navlist">
+            <li class="tab" [class.selected]="select==1" (click)="onClicktab(1)"><a>Bio</a></li>
+            <li class="tab" [class.selected]="select==2" (click)="onClicktab(2)"><a>Contacts</a></li>
+            <li class="tab" [class.selected]="select==3" (click)="onClicktab(3)"><a>Medical</a></li>
+            <li class="tab" [class.selected]="select==4" (click)="onClicktab(4)"><a>Results</a></li>
+        </ul>
+    </div>
+    <ba-card>
+        <form [formGroup]="myForm">
+            <div *ngIf="select ==1">
+                <div class="row heading-content">
+                    <p class="heading-paragrp">ADMISSION DETAILS</p>
+                </div><br>
+
+                <div class="row">
+                    <div class="form-group col-sm-4"><br>
+                        <label for="class">Admission to Class*</label>
+                        <select *ngIf="classes.length >0" class="form-control" required (change)="onSelectSectionWRTClass($event.target.value)" formControlName="intClassId">
+                           <option *ngFor="let class of classes" value="{{class.class_id}}" >
+                                {{class.class_name}}
+                           </option>
+                       </select>
+                    </div>
+
+                    <div class="form-group col-sm-4"><br>
+                        <label for="sec">Section</label>
+                        <select placeholder="Sections" name="section" class="form-control" formControlName="intSectionId">
+                           <option  *ngFor="let section of sections" value="{{section.section_id}}"  required >
+                               {{section.section_name}}
+                            </option>
+                         </select>
+                    </div>
+
+                    <div class="form-group col-sm-4"><br>
+                        <label for="sem">Date of Admission</label>
+                        <input type="date" class="form-control" formControlName="dtAdmissionDate">
+                    </div>
+                </div>
+                <div class="row heading-content">
+                    <p class="heading-paragrp">STUDENT DETAILS</p>
+                </div><br>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name">First Name*</label>
+                            <input type="text" class="form-control" formControlName="txtFirstName">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name">Middle Name</label>
+                            <input type="text" class="form-control" formControlName="txtMiddleName">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name">Last Name*</label>
+                            <input type="text" class="form-control" formControlName="txtLastName">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="date">Date Of Birth</label>
+                            <input type="date" class="form-control" formControlName="dtDOB">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="gender">Gender*</label>
+                            <select name="section" class="form-control" formControlName="intGenderId">
+                                 <option  *ngFor="let gender of genders" value="{{gender.value}}"  required >
+                                   {{gender.viewValue}}
+                                 </option>
+                              </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 form-group">
+                        <label for="name">Blood Group</label>
+                        <input type="text" class="form-control" formControlName="bloodGroup">
+                    </div>
+
+                    <div class="col-sm-4 form-group">
+                        <label for="name">Mother Tongue</label>
+                        <select placeholder="motherTongue" name="motherTongue" required class="form-control" formControlName="intmothertongueId">
+                            <option  *ngFor="let motherTongue of m_tongue" value="{{motherTongue.intmothertongueId}}"   >
+                                      {{motherTongue.txtmothertongue}}
+                            </option>
+                          </select>
+                    </div>
+
+                    <div class="col-sm-4 form-group">
+                        <label for="name">Belong To Bpl</label>
+                        <select class="form-control" id="belongToBPL" required formControlName="blBelongToBPL">
+                             <option  *ngFor="let bpl of belongToBPL" [value]="bpl.value" class="form-control" >
+                                          {{bpl.viewValue}}
+                             </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 form-group">
+                        <label for="name">BPL Card Number</label>
+                        <input type="text" class="form-control" formControlName="txtBPLCardNo">
+                    </div>
+
+                    <div class="col-sm-4 form-group">
+                        <label for="name">Specially Abled</label>
+                        <select class="form-control" id="isDisabled" formControlName="isDisabled">
+                             <option  *ngFor="let disable of Disabled" [value]="disable.value" >
+                                          {{disable.viewValue}}
+                             </option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 form-group">
+                        <label for="name">Disability Name</label>
+                        <select placeholder="disabilities" *ngIf="disabilities.length >0" required name="disabilities" class="form-control" formControlName="intDisabilityId">
+                               <option  *ngFor="let disability of disabilities" value="{{disability.intDisabilityChildId}}"  class="form-control" required >
+                                      {{disability.txtDisability}}
+                              </option>
+                            </select>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="select == 2">
+                <div class="row heading-content">
+                    <p class="heading-paragrp">PARENT DETAILS</p>
+                </div><br>
+
+                <div class="row">
+                    <div class="col-sm-4 ">
+                        <div class="form-group">
+                            <label for="name">Father Name</label>
+                            <input type="text" class="form-control" formControlName="txtFatherName">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 ">
+                        <div class="form-group">
+                            <label for="education">Father Education</label>
+                            <input type="text" class="form-control" formControlName="txtFEducationalQualification">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 ">
+                        <div class="form-group">
+                            <label for="occupation">Father Occupation</label>
+                            <input type="text" class="form-control" formControlName="txtFOccupation">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 ">
+                        <div class="form-group">
+                            <label for="name">Mother Name</label>
+                            <input type="text" class="form-control" formControlName="txtMotherName">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 ">
+                        <div class="form-group">
+                            <label for="education">Mother Education</label>
+                            <input type="text" class="form-control" formControlName="txtMEducationalQualification">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 ">
+                        <div class="form-group">
+                            <label for="occupation">Mother Occupation</label>
+                            <input type="text" class="form-control" formControlName="txtMOccupation">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4 ">
+                        <div class="form-group">
+                            <label for="number">Father Number</label>
+                            <input type="text" class="form-control" formControlName="txtFMobileNumber">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 ">
+                        <div class="form-group">
+                            <label for="education">Mother Number</label>
+                            <input type="text" class="form-control" formControlName="txtMMobileNumber">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 ">
+                        <div class="form-group">
+                            <label for="occupation">Alternative Number</label>
+                            <input type="text" class="form-control" formControlName="txtFOtherNumber">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Student Aadhar No</label>
+                            <input type="text" class="form-control" OnlyNumber="true" minlength="12" maxlength="12" formControlName="txtAadharNumber">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Father Aadhar No</label>
+                            <input type="text" class="form-control" OnlyNumber="true" minlength="12" maxlength="12" formControlName="fatherAadharNo">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Mother Aadhar No</label>
+                            <input type="text" class="form-control" OnlyNumber="true" minlength="12" maxlength="12" formControlName="motherAadharNo">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Email Address</label>
+                            <input type="email" class="form-control" formControlName="txtEmailId">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Religion</label>
+                            <select placeholder="religions" *ngIf="religions.length >0" name="religions" class="form-control" formControlName="intReligionId">
+                            <option  *ngFor="let religion of religions" value="{{religion.intReligionId}}">
+                                      {{religion.txtReligionName}}
+                            </option>
+                           </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Social Category</label>
+                            <select placeholder="Social Catagory" *ngIf="socialCatagory.length >0" required formControlName="intSocialCategoryId" class="form-control">
+                            <option  *ngFor="let catagory of socialCatagory" value="{{catagory.intSocialCategoryId}}"  >
+                                      {{catagory.txtSocialCategory}}
+                            </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </ba-card>
+</div>

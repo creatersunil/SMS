@@ -1,0 +1,116 @@
+
+<ba-card baCardClass="with-scroll">
+  <form [formGroup] = "myForm"  (ngSubmit)="onSubmit()" >
+    <div class="row">
+       <div class="col-md-4" >
+                    <div class="form-group">
+                        <label for="class">Groups</label>
+                         <select placeholder="Groups" class="form-control" required *ngIf="groups.length >0" (change)="onSelectGroup($event.target.value)" formControlName="group_name">
+                                      <!--<option value="-1">Approvar Group</option>-->
+                                     <option  *ngFor="let group of groups" [value]="group.group_name"  class="form-control" >
+                                                  {{group.group_name}}
+                                      </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4" >
+                    <div class="form-group" *ngIf="reportingto.length >0">
+                        <label for="class">Reporting To</label>
+                        <select placeholder="reportingto" class="form-control" *ngIf="reportingto.length >0" required formControlName="reporting_to" (change)="reportingValidation($event.target.value)" >
+                                      
+                                     <option  *ngFor="let reporting of reportingto" [value]="reporting.intRegistrationId"  class="form-control"   >
+                                                  {{reporting.txtFirstName}}
+                                      </option>
+                        </select>
+                        <small  style="color: red" *ngIf="idDisabled">User Cannot Report self</small>
+                    </div>
+                </div>
+                 <div class="col-md-4" >
+                    <div class="form-group" >
+                        <label for="class">Reporting Date</label>
+                        <input type="date" class="form-control" required formControlName="dt_repoting_start">
+                    </div>
+                </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+                <div class="form-group">
+                    <label for="currentAdderess">Comments</label>
+                    <textarea placeholder="Description about reporting" class="form-control" required formControlName="comments"></textarea>
+               </div>
+         </div>
+          <div class="col-md-4">
+                <div class="form-group"><br><br><br>
+                    <label >Is Active</label>
+                   <input type="checkbox" formControlName="is_active">
+               </div>
+         </div>
+         <div class="col-md-4">
+                <div class="form-group"><br><br>
+                   <button type="submit"  class="btn btn-primary " >Submit</button>
+               </div>
+         </div>
+    </div>
+  </form>
+    <div class="row">
+        <ng2-smart-table [settings]="settings" [source]="source" (editConfirm)="onCreateDialog($event,staticModalEdit)"></ng2-smart-table>
+    </div>
+</ba-card>
+
+
+
+<div class="modal fade" bsModal #staticModalCreate="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group" class="col-md-11">
+                        <label for="txtReason">Are you sure You want to add...</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="onCreateDialogConfirm(staticModalCreate,staticModalExists)">Yes</button>
+                <button class="btn btn-danger" (click)="onCreateDialogReject(staticModalCreate)">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" bsModal #staticModalExists="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group" class="col-md-11">
+                        <label for="txtReason">Record Already exists</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="staticModalExists.hide()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" bsModal #staticModalEdit="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group" class="col-md-11">
+                        <label for="txtReason">Are you sure You want to Update...</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="onEditeDialogConfirm(staticModalEdit,staticModalExists)">Yes</button>
+                <button class="btn btn-danger" (click)="onCreateDialogReject(staticModalEdit)">No</button>
+            </div>
+        </div>
+    </div>
+</div>

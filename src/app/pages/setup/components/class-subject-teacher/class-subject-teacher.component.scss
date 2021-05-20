@@ -1,0 +1,151 @@
+
+
+#navlist li {
+	list-style: none;
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.33;
+	text-align: left;
+}
+
+@media (min-width:550px) {
+	#navlist {
+		padding: 15px 0 10px 0;
+		margin: 0;
+	}
+
+	#navlist li {
+		display: inline;
+	}
+
+	.navContainer {
+		height: 44px;
+	}
+}
+
+@media (max-width:550px) {
+	#navlist {
+		padding: 0;
+		margin: 0;
+		width: 100%;
+	}
+
+	#navlist li {
+		display: block;
+		text-align: center;
+	}
+}
+
+.navContainer {
+	background-color: #ffffff;
+}
+
+.tab {
+	padding: 10px 30px;
+	cursor: pointer;
+}
+
+.selected {
+	font-weight: bold;
+	border-bottom: 4px solid #3b5998;
+}
+
+.responsiveTable {
+	display: block;
+	overflow-x: auto;
+}
+
+table {
+	width: 100%;
+	-webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.table-heading {
+	height: 50px;
+	font-weight: 600;
+	background-color: #ffffff;
+	border-bottom: 3px solid #f0f3f4;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.table-rowData {
+	height: 50px;
+	background-color: #ffffff;
+	border-bottom: 3px solid #f0f3f4;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.allotedSubjects {
+	font-weight: 600;
+	font-size: 20px;
+	color: #349be0;
+}
+
+.text-label {
+	font-weight: 100;
+	font-size: 18px;
+	vertical-align: text-top;
+	margin-top: -3px;
+}
+
+.table-textBox {
+	line-height: 18px;
+	width: 70px;
+}
+
+.inputTeacher {
+	line-height: 18px;
+}
+
+.classTeacherRow {
+	background-color: white;
+	border: none;
+}
+
+.classTeacherData {
+	border: none;
+	text-align: center;
+}
+
+
+.table {
+  margin-bottom: 0px;
+  & > thead {
+    & > tr {
+      & > th {
+    //    border-bottom: 1px solid $border-light;
+        white-space: nowrap;
+        &:first-child {
+          text-align: center;
+        }
+        &:last-child {
+          padding-right: 16px;
+        }
+      }
+    }
+  }
+  & > tbody {
+    & > tr {
+      & > tr:first-child {
+        padding-top: 1px;
+      }
+      & > td {
+        padding: 0px 8px;
+        line-height: 35px;
+       // border-top: 1px solid $border-light;
+        &:first-child {
+          text-align: center;
+        }
+        &:last-child {
+          padding-right: 16px !important;
+        }
+      }
+    }
+  }
+}
+
+

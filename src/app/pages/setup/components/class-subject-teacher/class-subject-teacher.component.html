@@ -1,0 +1,173 @@
+<div class="row navContainer">
+  <ul id="navlist">
+    <li class="tab" [class.selected]="select==1" (click)="onClickSelectTab(1)"><a>Class & Subject</a></li>
+    <li class="tab" [class.selected]="select==2" (click)="onClickSelectTab(2)"><a>Class & Section</a></li>
+    <li class="tab" [class.selected]="select==3" (click)="onClickSelectTab(3)"><a>Class Teacher</a></li>
+  </ul>
+</div>
+
+<!--CLASS SUBJECT DATA TEMLATE STARTS-->
+<div *ngIf="select==1">
+  <div class="row">
+    <div class="col-md-12" *ngIf="!editMode1">
+      <button class="btn sub-button" (click)="onClassSubjectEdit()">EDIT</button>
+    </div>
+    <div class="col-md-12" *ngIf="editMode1">
+      <button class="btn sub-button" (click)="onClassSubjectSave()">SAVE</button>
+      <button class="btn sub-button" (click)="onClassSubjectCancel()">CANCEL</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 responsiveTable">
+      <table class="table" *ngIf="!editMode1">
+        <thead>
+          <th class="table-heading"></th>
+          <th class="table-heading" *ngFor="let subject of subjects">{{subject.subject_name}}</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let group of groupClassSubjects">
+            <td class="table-rowData" style="font-weight:600;">{{group.class_name}}</td>
+            <td class="table-rowData allotedSubjects" *ngFor="let subject of group.subjects">
+              <label *ngIf="subject.subject_isActive !=0">✔</label>
+              <label *ngIf="subject.subject_isActive !=1"></label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table" *ngIf="editMode1">
+        <thead>
+          <th class="table-heading"></th>
+          <th class="table-heading" *ngFor="let subject of subjects">{{subject.subject_name}}</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let group of groupClassSubjects">
+            <td class="table-rowData" style="font-weight:600;">{{group.class_name}}</td>
+            <td class="table-rowData" *ngFor="let subject of group.subjects">
+              <!--<input type="checkbox" [(ngModel)]="subject.subject_isActive"  />
+              <label (click)="subject.subject_isActive=!subject.subject_isActive ; onChangeClassSubjectStatus(subject)"
+                class="text-label"></label>-->
+                <input type="checkbox"  class="check-box" value="{{subject.subject_isActive}}" [(ngModel)]="subject.subject_isActive" (change)="onChangeClassSubjectStatus(subject)" /><label class="check-box-label"></label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!--CLASS SUBJECT DATA TEMLATE ENDS-->
+
+<!--CLASS SECTION DATA TEMLATE STARTS-->
+
+
+<div *ngIf="select==2">
+  <div class="row">
+    <div class="col-md-12" *ngIf="!editMode2">
+      <button class="btn sub-button" (click)="onClassSectionEdit()">EDIT</button>
+    </div>
+    <div class="col-md-12" *ngIf="editMode2">
+      <button class="btn sub-button" (click)="onClassSectionSave()">SAVE</button>
+      <button class="btn sub-button" (click)="onClassSectionCancel()">CANCEL</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 responsiveTable">
+      <table class="table">
+        <thead>
+          <th class="table-heading">Class</th>
+          <th class="table-heading">Total Strength</th>
+          <th class="table-heading">Num of Section</th>
+          <th class="table-heading" *ngFor="let section of sections">{{section.section_name}}</th>
+        </thead>
+        <tbody *ngIf="!editMode2">
+          <tr *ngFor="let group of groupClassSectionData">
+            <td class="table-rowData" style="font-weight:600;">{{group.class_name}}</td>
+            <td class="table-rowData"><label class="table-textBox">{{group.total_strength}}</label></td>
+            <td class="table-rowData"><label class="table-textBox">{{group.no_of_sections}}</label></td>
+            <td class="table-rowData" *ngFor="let sectionStr of group.sections"><label class="table-textBox">{{sectionStr.std_count}}</label></td>
+
+          </tr>
+        </tbody>
+        <tbody *ngIf="editMode2">
+          <tr *ngFor="let group of groupClassSectionData">
+            <td class="table-rowData" style="font-weight:600;">{{group.class_name}}</td>
+            <td class="table-rowData"><input type="text" class="table-textBox" [(ngModel)]="group.total_strength" value="{{group.total_strength}}"
+                (change)="onClassSectionStengthChange(group)" OnlyNumber="true"/></td>
+            <td class="table-rowData"><input type="text" class="table-textBox" value="{{group.no_of_sections}}" [(ngModel)]="group.no_of_sections"
+                (change)="onClassSectionLengthChange(group)" OnlyNumber="true"/></td>
+            <td class="table-rowData" *ngFor="let sectionStr of group.sections"><input type="text" class="table-textBox" [(ngModel)]="sectionStr.std_count" (change)="onSectionStrengthChange(sectionStr)" OnlyNumber="true"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!--CLASS SECTION DATA TEMLATE ENDS-->
+<!--CLASS TEACHER DATA TEMLATE STARTS-->
+
+<div *ngIf="select==3">
+  <div class="row">
+    <div class="col-md-12" *ngIf="!editMode3">
+      <button class="btn sub-button" (click)="onClassTeacherEdit()">EDIT</button>
+    </div>
+    <div class="col-md-12" *ngIf="editMode3">
+      <button class="btn sub-button" (click)="onClassTeacherSave()">SAVE</button>
+      <button class="btn sub-button" (click)="onClassTeacherCancel()">CANCEL</button>
+    </div>
+  </div>
+
+  <div class="row remove-margin">
+    <div class="col-md-12 responsiveTable remove-padding">
+      <table class="table">
+        <thead>
+          <th class="table-heading">Class</th>
+          <th class="table-heading">Section</th>
+          <th class="table-heading">Section Strength</th>
+          <th class="table-heading">Class Teacher</th>
+          <th class="table-heading">Remarks</th>
+        </thead>
+        <ng-template [ngIf]="!editMode3">
+          <tbody *ngFor="let teacher of classSectTeacherSegrigatedData">
+            <tr class="classTeacherRow" *ngFor="let section of teacher.sectionteacher; let id = index;">
+              <td class="classTeacherData" [attr.rowspan]="teacher.sectionteacher.length" *ngIf="id==0" style="font-weight:600;">{{teacher.class_name}}</td>
+              <td class="classTeacherData">{{section.section_name}}</td>
+              <td class="classTeacherData">{{section.std_count}}</td>
+              <td class="classTeacherData" *ngIf="section.teacher_id >0">{{section.txtFirstName}} {{section.txtLastName}}</td>
+              <td class="classTeacherData" *ngIf="section.teacher_id ==0"></td>
+              <td class="classTeacherData">{{section.remarks}}</td>
+            </tr>
+          </tbody>
+        </ng-template>
+        <ng-template [ngIf]="editMode3">
+          <tbody *ngFor="let teacher of classSectTeacherSegrigatedData">
+            <tr class="classTeacherRow" *ngFor="let section of teacher.sectionteacher; let id = index;">
+              <td class="classTeacherData" [attr.rowspan]="teacher.sectionteacher.length" *ngIf="id==0" style="font-weight:600;">{{teacher.class_name}} </td>
+              <td class="classTeacherData">{{section.section_name}}</td>
+              <td class="classTeacherData">{{section.std_count}}</td>
+              <td class="classTeacherData" *ngIf="section.teacher_id > 0">
+                <select *ngIf="loadRegidName.length >0" [(ngModel)]="section.teacher_id" class="my_dropdown" id="my_dropdown" (change)="onSelectClassTeacher(section,$event.target.value)">
+                            <option  *ngFor="let teacher of loadRegidName"   value="{{teacher.intRegistrationId}}"  class="inputTeacher"  >
+                                      {{teacher.txtFirstName}} {{teacher.txtLastName}}
+                            </option>
+                  </select>
+              </td>
+              <td class="classTeacherData" *ngIf="section.teacher_id <= 0">
+                <select *ngIf="loadRegidName.length >0" class="my_dropdown" id="my_dropdown" (change)="onSelectClassTeacher(section,$event.target.value)">
+                            <option value="-1">Select </option>
+                            <option  *ngFor="let teacher of loadRegidName"   value="{{teacher.intRegistrationId}}"  class="inputTeacher"  >
+                                      {{teacher.txtFirstName}} {{teacher.txtLastName}}
+                            </option>
+                  </select>
+              </td>
+              <td class="classTeacherData"><input type="text" class="inputTeacher" [(ngModel)]="section.remarks" (change)="onSelectClassTeacher(section)"
+                /></td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+    </div>
+  </div>
+</div>
+<!--CLASS TEACHER DATA TEMLATE ENDS-->

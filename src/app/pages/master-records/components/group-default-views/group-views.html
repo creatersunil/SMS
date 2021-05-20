@@ -1,0 +1,79 @@
+
+<ba-card title="Group View Information" baCardClass="with-scroll">
+    <div class="row">
+          <div class="col-md-4">
+                 <div class="form-group">
+                        <label class="control-label">View Name</label>
+                          <select placeholder="Select view list" class="form-control"  *ngIf="viewlist.length >0"  (change)="onselect($event.target.value)"   >
+                              <option value="0">Please select View List</option>
+                             <option  *ngFor="let vlist of viewlist" [value]="vlist.viewName" class="form-control" >
+                                          {{vlist.viewName}}
+                             </option>
+                        </select>
+                 </div>
+         </div>
+    </div>
+    <div class="row">
+        <ng2-smart-table [settings]="settings" [source]="source" (editConfirm)="onCreateDialog($event,staticModalEdit)" (createConfirm)="onCreateDialog($event,staticModalCreate)"></ng2-smart-table>
+    </div>
+    
+</ba-card>
+
+
+
+
+<div class="modal fade" bsModal #staticModalCreate="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group" class="col-md-11">
+                        <label for="txtReason">Are you sure You want to add...</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="onCreateDialogConfirm(staticModalCreate,staticModalExists)">Yes</button>
+                <button class="btn btn-danger" (click)="onCreateDialogReject(staticModalCreate)">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" bsModal #staticModalExists="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group" class="col-md-11">
+                        <label for="txtReason">Record Already exists</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="staticModalExists.hide()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" bsModal #staticModalEdit="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group" class="col-md-11">
+                        <label for="txtReason">Are you sure You want to Update...</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="onEditeDialogConfirm(staticModalEdit,staticModalExists)">Yes</button>
+                <button class="btn btn-danger" (click)="onCreateDialogReject(staticModalEdit)">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+ 

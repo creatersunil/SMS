@@ -1,0 +1,355 @@
+<div *ngIf="!createNewRegistration">
+  <div class="row remove-margin">
+    <div class="col-sm-12 remove-padding">
+      <label class="txt-meneudata"><b style="font-size: 15px">New Registration</b></label>
+      <button class="btn sub-button" (click)="onClickEnableNewregistration()">NEW REGISTRATION</button>
+    </div>
+  </div>
+  <div class="row upppetxtbar">
+    <div class="col-sm-3">
+      <select *ngIf="skills.length >0" style="width: 100px" class="form-control no-border" (change)="onLoadSkillDataBasedOnSelectedSkillData($event.target.value)">
+                <option value="-1">skill</option>
+                <option  *ngFor="let skill of skills" value="{{skill.skillId}}"  class="form-control">
+                         {{skill.skill_name}}
+                </option>
+           </select>
+    </div>
+    <div class="col-sm-3 form-group">
+    </div>
+    <div class="col-sm-3 form-group">
+    </div>
+    <div class="col-sm-3 form-group">
+      <input type="text" [(ngModel)]="term" placeholder="search" class="form-control" style="border-top: none ;border-left: none; border-right: none; height: 28px">
+    </div>
+  </div>
+  <br>
+  <!--<div class="row upppetxtbar">
+    <div class="col-sm-1.5">
+      <select *ngIf="classes.length >0" class="form-control no-border" (change)="onClickClass($event.target.value) ; onSelectSectionWRTClass($event.target.value)">
+              <option value="-1">class</option>
+              <option *ngFor="let class of classes" value="{{class.class_id}}" >
+                  {{class.class_name}}
+              </option>
+          </select>
+    </div>
+    <div class="col-sm-1.5">
+      <select placeholder="Sections" *ngIf="sections.length >0" name="section" class="form-control no-border" (change)="onselectSection($event.target.value)">
+                     <option value="-1">section</option>
+                     <option  *ngFor="let section of sectionNames" value="{{section.section_id}}"  >
+                               {{section.section_name}}
+                     </option>
+          </select>
+    </div>
+  </div>-->
+
+
+  <!--<div class="row">
+    <div class="txtclasssection">
+      <p class="heading-paragrp" style="padding: 0px 0px 0px 7px;">{{selectedClass}}</p>
+    </div>
+    <div class="txtclasssection">
+      <p class="heading-paragrp" style="padding: 0px 0px 0px 7px;">{{selectedsection}}</p>
+    </div>
+  </div>-->
+
+
+  <div *ngIf="!createNewRegistration">
+    <table class="table" [mfData]="dataTableListData" #mf="mfDataTable" [mfRowsOnPage]="10" (mfSelectedEntities)="setSelectedEntities($event)">
+      <thead>
+        <tr>
+          <th style="width: 22%">
+            <mfDefaultSorter by="name">Name</mfDefaultSorter>
+          </th>
+          <th style="width: 22%">
+            <mfDefaultSorter by="address">Address</mfDefaultSorter>
+          </th>
+          <!--<th style="width: 22%">
+            <mfDefaultSorter by="joiningdate">Joining Date</mfDefaultSorter>
+          </th>-->
+          <th style="width: 22%">
+            <mfDefaultSorter by="email">Email</mfDefaultSorter>
+          </th>
+          <th style="width: 22%">
+            <mfDefaultSorter by="city">Skills 1</mfDefaultSorter>
+          </th>
+          <th style="width: 22%">
+            <mfDefaultSorter by="city">Skills 2</mfDefaultSorter>
+          </th>
+          <th style="width: 22%">
+            <mfDefaultSorter by="city">Skills 3</mfDefaultSorter>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of mf.data |filter:term">
+          <td>{{item.txtFirstName}} {{item.txtLastName}}</td>
+          <td>{{item.txtPerAddress}}</td>
+          <td>{{item.txtEmailId}}</td>
+          <td *ngFor="let skill of item.skills">{{skill.skill_name}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<form [formGroup]="myForm" *ngIf="createNewRegistration">
+  <div class="row remove-margin">
+    <div class="col-sm-12 remove-padding">
+      <a class="txt-meneudata"><img src="../../../../assets/new-images/left.png" alt="Previous icon" class="img-responsive prev" style="cursor: pointer" (click)="onClickBackToList()"><h6 style="height: 45px; padding:  11px 47px ">New Registration </h6> </a>
+      <button class="btn sub-button" type="submit" (click)="onClickRegistrationSave()" [disabled]="!myForm.valid">SAVE</button>
+      <button class="btn sub-button" type="button" (click)="onClickRegistrationCancel()">CANCEL</button>
+
+    </div>
+  </div>
+  <div>
+    <ba-card>
+
+      <div class="row heading-content">
+        <p class="heading-paragrp">PERSONAL DETAILS</p>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-sm-4" style="text-align: center">
+          <img src="../../../../assets/new-images/studentphoto.jpeg" alt="student" class="img-size">
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="name">First Name<small style="color: red">*</small></label>
+            <input type="text" class="form-control" formControlName="txtFirstName">
+          </div>
+          <div class="form-group">
+            <label for="name">Last Name</label>
+            <input type="text" class="form-control" formControlName="txtLastName">
+          </div>
+          <div class="form-group">
+            <label for="date">Date Of Birth<small style="color: red">*</small></label>
+            <input type="date" class="form-control" formControlName="dtDOB">
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="name">Middle Name</label>
+            <input type="text" class="form-control" formControlName="txtMiddleName">
+          </div>
+
+
+          <div class="form-group">
+            <label for="gender">Gender<small style="color: red">*</small></label>
+            <select name="section" class="form-control" formControlName="intGenderId">
+                     <option  *ngFor="let gender of genders" value="{{gender.value}}"   >
+                               {{gender.viewValue}}
+                     </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="name">Father Name <small style="color: red">*</small></label>
+            <input type="text" class="form-control" formControlName="txtFatherName">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <label for="name">Blood Group</label>
+          <input type="text" class="form-control" formControlName="bloodGroup">
+        </div>
+
+        <div class="col-sm-4 form-group">
+          <label for="name">Mother Tongue</label>
+          <select placeholder="motherTongue" name="motherTongue"  class="form-control" formControlName="intmothertongueId">
+                            <option  *ngFor="let motherTongue of m_tongue" value="{{motherTongue.intmothertongueId}}"   >
+                                      {{motherTongue.txtmothertongue}}
+                            </option>
+          </select>
+        </div>
+
+        <div class="col-sm-4 form-group">
+          <label for="name">Marital Status </label>
+          <select class="form-control" formControlName="intMaritalStatusId">
+                            <option  *ngFor="let mstatus of maritalStatus" value="{{mstatus.intMaritalStatusId}}"   >
+                                      {{mstatus.txtMaritalStatus}}
+                            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="control-label">Religion</label>
+            <select placeholder="religions" *ngIf="religions.length >0" name="religions" class="form-control" formControlName="intReligionId">
+                  <option  *ngFor="let religion of religions" value="{{religion.intReligionId}}">
+                                      {{religion.txtReligionName}}
+                   </option>
+            </select>
+          </div>
+        </div>
+
+        <!--<div class="col-sm-4 form-group">
+          <label for="name">Mother Tongue</label>
+          <select placeholder="motherTongue" name="motherTongue" required class="form-control" formControlName="intmothertongueId">
+                            <option  *ngFor="let motherTongue of m_tongue" value="{{motherTongue.intmothertongueId}}"   >
+                                      {{motherTongue.txtmothertongue}}
+                            </option>
+          </select>
+        </div>-->
+
+        <div class="col-sm-4 form-group">
+          <label for="name">Aadhar Number </label>
+          <input type="text" class="form-control" formControlName="txtAadharNumber">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label">Permanent Address</label>
+            <textarea type="text" class="form-control" formControlName="txtPerAddress"></textarea>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label">Temporary Address (Same as Per Address)<input type="checkbox" (click)="tempAddressSameAsPerAddress($event)"></label>
+            <textarea type="text" class="form-control" formControlName="txtTempAddress"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="row heading-content">
+        <p class="heading-paragrp">OFFICIAL DETAILS</p>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="form-group" class="col-sm-4">
+          <label for="mobileNumber">Mobile Number<small style="color: red">*</small></label>
+          <input type="text" class="form-control" maxlength="10" minlength="10" OnlyNumber="true" name="mobileNumber" formControlName="txtMobileNumber">
+        </div>
+        <div class="form-group" class="col-sm-4">
+          <label for="alternativeNumber">Alternative Mobile Number</label>
+          <input OnlyNumber="true" type="text"  class="form-control" id="alternativemobilenumber" formControlName="txtAlternateMobileNumber"
+            maxlength="10" minlength="10">
+        </div>
+        <!--<div class="form-group" class="col-sm-4">
+          <label for="relativesNumber">Email Address</label>
+          <input text="email" class="form-control" formControlName="txtEmailId">
+        </div>-->
+        <div class="form-group" class="col-sm-4">
+          <label for="alternativeNumber">Relative Number</label>
+          <input OnlyNumber="true" type="text" OnlyNumber="true" class="form-control" id="txtRelativeNumber" formControlName="txtAlternateMobileNumber"
+            maxlength="10" minlength="10">
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="form-group" class="col-sm-4">
+          <label for="relativesNumber">Email Address</label>
+          <input text="email" class="form-control" formControlName="txtEmailId" #email (blur)="checkEmail(email)">
+        </div>
+        <div class="form-group" class="col-sm-4">
+          <label for="mobileNumber">Date of Joining<small style="color: red">*</small></label>
+          <input type="date" class="form-control" maxlength="10" minlength="10" OnlyNumber="true" name="mobileNumber" formControlName="dtJoiningDate">
+        </div>
+        <div class="form-group" class="col-sm-4">
+          <label for="mobileNumber">Experince(in years)<small style="color: red">*</small></label>
+          <input type="number" class="form-control" OnlyNumber="true" name="mobileNumber" formControlName="experience">
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="form-group" class="col-sm-4" x>
+          <label for="qualification">Qualification<small style="color: red">*</small></label>
+          <input type="text" name="qualification" class="form-control" required formControlName="qualification">
+        </div>
+        <div class="form-group" class="col-sm-4">
+          <label for="designation">Designation</label>
+          <input type="text" name="designation" class="form-control"  formControlName="designation">
+        </div>
+        <div class="col-md-4">
+          <div class="form-group ">
+            <label class="control-label">User Group<small style="color: red">*</small></label>
+            <select placeholder="groupname" *ngIf="groupname.length >0" required name="groupname" class="form-control" formControlName="group_name"
+              (change)="groupNameValidation($event.target.value)">
+                <option  *ngFor="let group of groupname" value="{{group.group_name}}"  class="form-control" required >
+                     {{group.group_name}}
+                </option>
+              </select>
+            <div *ngIf="userGroup">
+              <small style="color: red">Staff Cannot Select Student</small>
+            </div>
+          </div>
+        </div>
+        <!--<div class="col-sm-4">
+          <div class="form-group">
+            <label for="skill">Skill</label>
+            <select *ngIf="skills.length >0" class="form-control" formControlName="skillId">
+                     <option  *ngFor="let skill of skills" [value]="skill.skillId"  class="form-control">
+                             {{skill.skill_name}}
+                     </option>
+            </select>
+          </div>
+        </div>-->
+      </div><br>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="previousSchoolName">Previous School Name</label>
+            <textarea placeholder="Enter previous School Name" class="form-control" id="previousSchoolName" formControlName="txtPreviousSchoolName"></textarea>
+          </div>
+        </div>
+        <div class="form-group" class="col-sm-6">
+          <div class="form-group">
+            <label for="previousSchoolAddress">Previous School Address</label>
+            <textarea placeholder="Enter previous School Address" class="form-control" id="previousSchoolAddress" formControlName="txtPreviousSchoolAddress"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row heading-content">
+        <p class="heading-paragrp">SKILL DETAILS</p>
+      </div><br><br>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="skill">Skill</label>
+            <select *ngIf="skills.length >0" class="form-control" formControlName="skillId" (change)="onSelectSkills($event.target.value)">
+                     <option  *ngFor="let skill of skills" [value]="skill.skillId"  class="form-control">
+                             {{skill.skill_name}}
+                     </option>
+            </select>
+            <div *ngIf="skillLimit">
+              <small style="color: red">Only 3 skills can be selected</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <!--<div class="form-group">-->
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 20% "><b>ID</b></th>
+                <th style="width: 60%">NAME</th>
+                <th style="width: 20%">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let skill of selecedTeacherSkills">
+                <td>{{skill.skillId}}</td>
+                <td>{{skill.skill_name}}</td>
+                <td><label style="cursor: pointer" (click)="onClickRemoveSkill(skill)"><b>&#x2716;</b></label></td>
+              </tr>
+            </tbody>
+          </table>
+          <!--</div>-->
+        </div>
+      </div>
+    </ba-card>
+  </div>
+</form>

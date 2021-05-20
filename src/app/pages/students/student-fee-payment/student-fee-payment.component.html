@@ -1,0 +1,162 @@
+<div class="row navContainer">
+  <ul id="navlist">
+    <li class="tab" [class.selected]="select==1" (click)="onClickLoadTab(1)"><a>Upcoming Events</a></li>
+    <li class="tab" [class.selected]="select==2" (click)="onClickLoadTab(2)"><a>My Events</a></li>
+  </ul>
+</div><br>
+<div *ngIf="select ==_COLLECT_FEE">
+  <div class="row upppetxtbar">
+    <div class="col-sm-1.5">
+      <select *ngIf="classes.length >0" class="form-control no-border" (change)="onClickClass($event.target.value); onSelectSectionWRTClass($event.target.value)">
+              <option value="-1">All</option>
+              <option *ngFor="let class of classes" value="{{class.class_id}}" >
+                  {{class.class_name}}
+              </option>
+          </select>
+    </div>
+    <div class="col-sm-1.5">
+      <select placeholder="Sections" *ngIf="sections.length >0" name="section" class="form-control no-border" (change)="onselectSection($event.target.value)">
+                     <option value="-1">All</option>
+                     <option  *ngFor="let section of sectionNames" value="{{section.section_id}}"  >
+                               {{section.section_name}}
+                     </option>
+          </select>
+    </div>
+
+  </div><br>
+
+  <div class="col-md-12" *ngIf="!enableCollectFee">
+    <ba-card>
+      <table class="table-no-border-no-bg" [mfData]="feedata" #mf="mfDataTable" [mfRowsOnPage]="10">
+        <thead>
+          <tr style="border-bottom: solid 1px #ddeeff;">
+            <th style="width: 16%">
+              <mfDefaultSorter by="name">Name</mfDefaultSorter>
+            </th>
+            <th style="width: 16%">
+              <mfDefaultSorter by="class">Class</mfDefaultSorter>
+            </th>
+            <th style="width: 16%">
+              <mfDefaultSorter by="section">Sec</mfDefaultSorter>
+            </th>
+            <th style="width: 16%">
+              <mfDefaultSorter by="admissonno">Admission No</mfDefaultSorter>
+            </th>
+            <th style="width: 16%">
+              <mfDefaultSorter by="total">Total</mfDefaultSorter>
+            </th>
+            <th style="width: 16%">
+              <mfDefaultSorter by="unpaid">Unpaid</mfDefaultSorter>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mf.data" style="cursor:pointer" (click)="payFeeForSelectedStudent(item)">
+            <td style="color: #4990e2">{{item.name}} </td>
+            <td>{{item._class}}</td>
+            <td>{{item.sec}}</td>
+            <td>{{item.admissionno}}</td>
+            <td>{{item.total}}</td>
+            <td style="color: #4990e2">Rs {{item.unpaid}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="9">
+              <mfBootstrapPaginator class="pagination" [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </ba-card>
+  </div>
+  <div *ngIf="enableCollectFee">
+    <ba-card>
+      <div class="row">
+        <div class="col-sm-1" style="cursor: pointer" (click)="onClickBackToView()">
+          <h2 style="padding-top: 5px;">&#10094;</h2>
+        </div>
+        <div class="col-sm-11">
+          <h6>{{selectedStudentName}}</h6>
+          <p>{{selectedStudentClass}} , {{selectedStudentSection}}</p>
+        </div>
+      </div>
+      <hr style="height: 2px;background-color:  #f7fbff; color: #f7fbff">
+      <div class="row">
+        <div class="col-sm-12">
+          <button class="btn sub-button" type="button">PROCEED</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <table class="table-no-border-no-bg" [mfData]="feedetailsOfselectedStClass" #mf="mfDataTable" [mfRowsOnPage]="10">
+            <thead>
+              <tr style="	border-bottom: none">
+                <th style="width: 40%">
+                  <mfDefaultSorter by="components">Components</mfDefaultSorter>
+                </th>
+                <th style="width: 30%">
+                  <mfDefaultSorter by="monthly">Monthly</mfDefaultSorter>
+                </th>
+                <th style="width: 30%">
+                  <mfDefaultSorter by="yearly">Yearly</mfDefaultSorter>
+                </th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of mf.data">
+                <td>{{item.fee_name}} </td>
+                <td *ngIf="item.monthlyFee >0 ; else notAvailable">{{item.monthlyFee}}</td>
+                <ng-template #notAvailable>
+                  <td> -NA-</td>
+                </ng-template>
+                <td *ngIf="item.yearlyFees >0 ; else YearlyNotAvailable">{{item.yearlyFees}}</td>
+                <ng-template #YearlyNotAvailable>
+                  <td>-NA-</td>
+                </ng-template>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="col-sm-6" style="background-color: #f7fbff;  border: solid 1px #eff7ff">
+          <br>
+          <p class="fee-details-fonts">Total Fee : Rs {{totalfeeAmount}}</p><br>
+          <p class="fee-details-fonts">Fee Collected : Rs 30000</p>
+          <br><br>
+          <p class="fee-details-fonts" style="font-size: 20px">Balance : Rs 35000</p>
+          <br>
+          <hr>
+          <br>
+          <p class="fee-details-fonts">Collect Fee : <input type="text"></p><br>
+          <p class="fee-details-fonts">Projected Balance : Rs 15000</p><br>
+          <hr>
+          <p class="fee-details-fonts">Type of Payment : <label class="custom-radio nowrap">
+             <input type="radio" name="optionsRadios" id="optionsRadios3" >
+              <span class="fee-details-fonts">online</span>
+            </label>
+            <label class="custom-radio nowrap">
+             <input type="radio" name="optionsRadios" id="optionsRadios3" >
+              <span class="fee-details-fonts">cash</span>
+            </label>
+            <label class="custom-radio nowrap">
+             <input type="radio" name="optionsRadios" id="optionsRadios3" >
+              <span class="fee-details-fonts">card</span>
+            </label></p><br>
+          <p class="fee-details-fonts">Projected Balance : <textarea></textarea></p>
+        </div>
+      </div>
+ 
+    </ba-card>
+  </div>
+</div>
+<div *ngIf="select ==_FEE_OVERVIEW">
+  <p>Praveen1234</p>
+</div>

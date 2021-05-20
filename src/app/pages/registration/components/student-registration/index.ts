@@ -1,0 +1,1 @@
+export {StudentRegistrationComponent} from './student-registration.component';

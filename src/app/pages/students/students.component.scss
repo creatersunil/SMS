@@ -1,0 +1,227 @@
+.heading-content{
+  height: 25px;
+  background-color: #f3f4f8;
+}
+input{
+  height: 28px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  border: solid 1px #ededed;
+   color: #323232;
+   opacity: 3.5;
+}
+select{
+     height:calc(2.25rem + 0px);;
+  border-radius: 2px;
+  background-color: #ffffff;
+  border: solid 1px #ededed;
+   color: #323232;
+   opacity: 3.5;
+}
+select.form-control:not([size]):not([multiple]) {
+    height: calc(2.25rem + -2px);
+    font-size: 0.8rem
+}
+.no-border{
+  border: 0;
+  box-shadow: none;
+  width:75px;
+}
+
+label{
+    height: 14px;
+  font-size: 12px;
+  line-height: 1.27;
+  text-align: left;
+  color: #272727;
+}
+.upppetxtbar{
+  margin-left: 1px;
+  // height: 40px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.txtclasssection{
+  margin: 6px 0px 6px 15px;
+  width: 52px;
+  height: 24px;
+  border-radius: 10px;
+  background-color: #d2e9ff;
+  padding: 0px 0px 0px 0px
+}
+
+.img-size{
+     width: 150px;
+     height: 150px;
+     background-color: #d8d8d8;
+     border-radius: 50%;
+    // margin: 20px 4px 0px 35px;;
+    // align-content: center
+}
+
+// p{
+//     margin: 5px !important;
+//   height: 14px;
+//   font-size: 13px;
+//   font-weight: bold;
+//   text-align: left;
+//   color: #000000;
+// }
+
+.heading-paragrp{
+  margin: 5px !important;
+  height: 16px;
+  font-size: 12px;
+  // font-weight: bold;
+  text-align: left;
+  color: #242424;
+}
+
+.table {
+  width: 100%;
+	-webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  & > thead {
+    & > tr {
+      & > th {
+        &:first-child {
+         // font-weight: 700;
+          font-size: 14px;
+          text-align: left;
+          color: #323232;
+          padding-left: 40px;
+        }
+      padding: 0.75rem;
+     	height: 50px;
+	    font-weight: 600;
+	    background-color: #ffffff;
+    	border-bottom: 1px solid #f0f3f4;
+	    font-size: 14px;
+       font-weight: bold;
+      text-align: left;
+      color: #323232;
+      }
+    }
+}
+  & > tbody {
+    & > tr {
+      // & > tr:first-child {
+      //   padding-top: 1px;
+      // }
+      & > td {
+        &:first-child {
+         // font-weight: 700;
+          font-size: 12px;
+          text-align: left;
+          color: #4990e2;
+          padding: 17px 0px 0px 40px;
+        } 
+          padding: 16px 14px;
+        	height: 55px;
+	        background-color: #ffffff;
+	        border-bottom: 1px solid #f0f3f4;
+	        text-align: left;
+          font-size: 12px;
+          text-align: left;
+          color: #727272;
+      }
+    }
+  }
+   & > tfoot {
+    & > tr {
+      // & > tr:first-child {
+      //   padding-top: 1px;
+      // }
+      & > td {
+          padding: 15px 8px;
+        	height: 50px;
+	        background-color: #ffffff;
+	        border-bottom: 1px solid #f0f3f4;
+	        text-align: left;
+          font-size: 20px;
+          color: #323232;
+          font-weight: 600;
+      }
+    }
+  }
+}
+
+.profileDevision{
+    // height: 207px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	margin-left: 5px;
+}
+
+.content-bold{
+    height: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: left;
+  color: #000000;
+  line-height: 1.27;
+}
+
+.content-light{
+  height: 14px;
+  font-size: 12px;
+  line-height: 1.27;
+  text-align: left;
+  color: #272727;
+}
+
+#navlist li {
+	list-style: none;
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.67;
+	text-align: left;
+}
+
+@media (min-width:550px) {
+	#navlist {
+		padding: 15px 0 10px 0;
+		margin: 2px;
+        background-color: #f3f4f8;
+	}
+
+	#navlist li {
+		display: inline;
+	}
+
+	.navContainer {
+		// height: 44px;
+		margin-left: 0px
+	}
+}
+
+@media (max-width:550px) {
+	#navlist {
+		padding: 0;
+		margin: 0;
+		width: 100%;
+	}
+
+	#navlist li {
+		display: block;
+		text-align: center;
+	}
+}
+
+// .navContainer {
+// 	background-color:   #f7fbff;
+// }
+
+.tab {
+	padding: 18px 86px 10px 19px;;
+	cursor: pointer;
+    // background-color: #ffffff
+}
+
+.selected {
+	font-weight: bold;
+	border-bottom: 4px solid #ffffff;
+    background-color: #ffffff;
+}
